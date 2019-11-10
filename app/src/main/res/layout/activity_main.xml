@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/Select_More"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_margin="15dp"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/Select_Log"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기록"
+            android:onClick="Click_Select_Log"/>
+
+        <Button
+            android:id="@+id/Select_Setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="설정"
+            android:onClick="Click_Select_Setting"/>
+
+        <Button
+            android:id="@+id/Select_Makers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="제작자"
+            android:onClick="Click_Select_Makers"/>
+
+        <Button
+            android:id="@+id/More_Quit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="x"
+            android:onClick="Click_More_Quit"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Start_First"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <Button
+            android:id="@+id/Start_More"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="80dp"
+            android:text="더보기"
+            android:onClick="Click_Start_More"/>
+
+        <Button
+            android:layout_gravity="bottom|center_horizontal"
+            android:id="@+id/Start_Start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="시작하기"
+            android:onClick="Click_Start_Start"/>
+
+        <LinearLayout
+            android:gravity="bottom|center_horizontal"
+            android:id="@+id/Select_Start"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/Start_Timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="타이머\n"
+                android:onClick="Click_Start_Timer"/>
+
+            <Button
+                android:id="@+id/Start_Select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="경로/구간\n지정"
+                android:onClick="Click_Start_Select"/>
+
+            <Button
+                android:id="@+id/Start_Fast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="빠른\n시작"
+                android:onClick="Click_Start_Fast"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
