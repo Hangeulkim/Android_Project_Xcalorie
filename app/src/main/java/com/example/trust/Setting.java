@@ -5,10 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class Setting extends AppCompatActivity {
 
-    Button Bike;
+    ImageButton Bike;
 
     public void Click_Run_Bike(View view){
         int toggle=1;
@@ -19,7 +20,7 @@ public class Setting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        Bike=(Button)findViewById(R.id.Bike);
+        Bike=(ImageButton)findViewById(R.id.Bike);
 
     }
 }
