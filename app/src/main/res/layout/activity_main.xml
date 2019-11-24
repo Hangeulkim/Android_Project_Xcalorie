@@ -47,6 +47,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:gravity="bottom|center_horizontal"
         android:id="@+id/Start_First"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -57,13 +58,11 @@
             android:id="@+id/Start_More"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="30dp"
             android:text="더보기"
             android:onClick="Click_Start_More"/>
 
         <Button
-            android:layout_gravity="bottom|center_horizontal"
             android:id="@+id/Start_Start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,21 +70,23 @@
             android:text="시작하기"
             android:onClick="Click_Start_Start"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:gravity="bottom|center_horizontal"
             android:id="@+id/Select_Start"
             android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="15dp">
 
             <Button
                 android:id="@+id/Start_Timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="타이머\n"
-                android:onClick="Click_Start_Timer"/>
+                android:text="타이머"
+                android:layout_alignTop="@id/Start_Select"
+                android:layout_alignBottom="@id/Start_Select"
+                android:onClick="Click_Start_Timer" />
 
             <Button
                 android:id="@+id/Start_Select"
@@ -94,16 +95,18 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:text="경로/구간\n지정"
-                android:onClick="Click_Start_Select"/>
+                android:onClick="Click_Start_Select"
+                android:layout_toRightOf="@id/Start_Timer"/>
 
             <Button
                 android:id="@+id/Start_Fast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="빠른\n시작"
-                android:onClick="Click_Start_Fast"/>
+                android:onClick="Click_Start_Fast"
+                android:layout_toRightOf="@id/Start_Select"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
