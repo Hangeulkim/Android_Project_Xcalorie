@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -15,8 +15,8 @@ public class MainActivity extends FragmentActivity {
     RelativeLayout Select_Start_Layout;
     LinearLayout Start_First_Layout;
 
-    Button Start_More;
-    Button Start_Start;
+    ImageButton Start_More;
+    ImageButton Start_Start;
 
     public void Click_Select_Log(View view){
 
@@ -67,8 +67,8 @@ public class MainActivity extends FragmentActivity {
         Select_Start_Layout=(RelativeLayout)findViewById(R.id.Select_Start);
         Start_First_Layout=(LinearLayout)findViewById(R.id.Start_First);
 
-        Start_More=(Button)findViewById(R.id.Start_More);
-        Start_Start=(Button)findViewById(R.id.Start_Start);
+        Start_More=(ImageButton)findViewById(R.id.Start_More);
+        Start_Start=(ImageButton)findViewById(R.id.Start_Start);
 
 
     }

@@ -16,33 +16,37 @@
         android:layout_margin="15dp"
         android:visibility="gone">
 
-        <Button
+        <ImageButton
             android:id="@+id/Select_Log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="기록"
-            android:onClick="Click_Select_Log"/>
+            android:onClick="Click_Select_Log"
+            android:src="@drawable/button_record"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/Select_Setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="설정"
-            android:onClick="Click_Select_Setting"/>
+            android:onClick="Click_Select_Setting"
+            android:src="@drawable/button_settings"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/Select_Makers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="제작자"
-            android:onClick="Click_Select_Makers"/>
+            android:onClick="Click_Select_Makers"
+            android:src="@drawable/button_developers"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/More_Quit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="x"
-            android:onClick="Click_More_Quit"/>
+            android:onClick="Click_More_Quit"
+            android:src="@drawable/button_close"/>
 
     </LinearLayout>
 
@@ -54,21 +58,23 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-        <Button
+        <ImageButton
             android:id="@+id/Start_More"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
             android:text="더보기"
-            android:onClick="Click_Start_More"/>
+            android:onClick="Click_Start_More"
+            android:src="@drawable/button_detail"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/Start_Start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:text="시작하기"
-            android:onClick="Click_Start_Start"/>
+            android:onClick="Click_Start_Start"
+            android:src="@drawable/button_start"/>
 
         <RelativeLayout
             android:gravity="bottom|center_horizontal"
@@ -79,16 +85,16 @@
             android:orientation="horizontal"
             android:layout_marginBottom="15dp">
 
-            <Button
+            <ImageButton
                 android:id="@+id/Start_Timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="타이머"
                 android:layout_alignTop="@id/Start_Select"
                 android:layout_alignBottom="@id/Start_Select"
-                android:onClick="Click_Start_Timer" />
+                android:onClick="Click_Start_Timer"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/Start_Select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,7 +104,7 @@
                 android:onClick="Click_Start_Select"
                 android:layout_toRightOf="@id/Start_Timer"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/Start_Fast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
