@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:text="기록"
             android:onClick="Click_Select_Log"
-            android:src="@drawable/button_record"/>
+            android:src="@drawable/button_record"
+            android:background="00ffffff"/>
 
         <ImageButton
             android:id="@+id/Select_Setting"
@@ -63,9 +64,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
-            android:text="더보기"
             android:onClick="Click_Start_More"
-            android:src="@drawable/button_detail"/>
+            android:src="@drawable/button_detail"
+            android:text="더보기"
+            android:background="00ffffff"/>
 
         <ImageButton
             android:id="@+id/Start_Start"
@@ -74,7 +76,8 @@
             android:layout_marginBottom="15dp"
             android:text="시작하기"
             android:onClick="Click_Start_Start"
-            android:src="@drawable/button_start"/>
+            android:src="@drawable/button_start"
+            android:background="00ffffff"/>
 
         <RelativeLayout
             android:gravity="bottom|center_horizontal"
@@ -92,7 +95,8 @@
                 android:text="타이머"
                 android:layout_alignTop="@id/Start_Select"
                 android:layout_alignBottom="@id/Start_Select"
-                android:onClick="Click_Start_Timer"/>
+                android:onClick="Click_Start_Timer"
+                android:background="00ffffff"/>
 
             <ImageButton
                 android:id="@+id/Start_Select"
@@ -102,7 +106,8 @@
                 android:layout_marginRight="16dp"
                 android:text="경로/구간\n지정"
                 android:onClick="Click_Start_Select"
-                android:layout_toRightOf="@id/Start_Timer"/>
+                android:layout_toRightOf="@id/Start_Timer"
+                android:background="00ffffff"/>
 
             <ImageButton
                 android:id="@+id/Start_Fast"
@@ -110,7 +115,8 @@
                 android:layout_height="wrap_content"
                 android:text="빠른\n시작"
                 android:onClick="Click_Start_Fast"
-                android:layout_toRightOf="@id/Start_Select"/>
+                android:layout_toRightOf="@id/Start_Select"
+                android:background="00ffffff"/>
 
         </RelativeLayout>
 
