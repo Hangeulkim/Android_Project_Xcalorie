@@ -7,6 +7,17 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity"
+        map:cameraZoom = "15"
+        />
+
     <LinearLayout
         android:id="@+id/Select_More"
         android:layout_width="match_parent"
@@ -23,7 +34,7 @@
             android:text="기록"
             android:onClick="Click_Select_Log"
             android:src="@drawable/button_record"
-            android:background="00ffffff"/>
+            android:background="#00FFFFFF"/>
 
         <ImageButton
             android:id="@+id/Select_Setting"
@@ -67,7 +78,7 @@
             android:onClick="Click_Start_More"
             android:src="@drawable/button_detail"
             android:text="더보기"
-            android:background="00ffffff"/>
+            android:background="#00ffffff"/>
 
         <ImageButton
             android:id="@+id/Start_Start"
@@ -77,7 +88,7 @@
             android:text="시작하기"
             android:onClick="Click_Start_Start"
             android:src="@drawable/button_start"
-            android:background="00ffffff"/>
+            android:background="#00ffffff"/>
 
         <RelativeLayout
             android:gravity="bottom|center_horizontal"
@@ -96,7 +107,7 @@
                 android:layout_alignTop="@id/Start_Select"
                 android:layout_alignBottom="@id/Start_Select"
                 android:onClick="Click_Start_Timer"
-                android:background="00ffffff"/>
+                android:background="#00ffffff"/>
 
             <ImageButton
                 android:id="@+id/Start_Select"
@@ -107,7 +118,7 @@
                 android:text="경로/구간\n지정"
                 android:onClick="Click_Start_Select"
                 android:layout_toRightOf="@id/Start_Timer"
-                android:background="00ffffff"/>
+                android:background="#00ffffff"/>
 
             <ImageButton
                 android:id="@+id/Start_Fast"
@@ -116,7 +127,7 @@
                 android:text="빠른\n시작"
                 android:onClick="Click_Start_Fast"
                 android:layout_toRightOf="@id/Start_Select"
-                android:background="00ffffff"/>
+                android:background="#00ffffff"/>
 
         </RelativeLayout>
 
