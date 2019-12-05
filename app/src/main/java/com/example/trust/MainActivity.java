@@ -47,6 +47,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     ImageButton Start_More;
     ImageButton Start_Start;
 
+    private GoogleMap mMap;
+    private GoogleMap gMap;
+    //    private ArrayList<LatLng> arrayPoints;
+    double p_lat, p_lng;
+    private RouteInfo routeInfo;
+
     public void Click_Select_Log(View view){
 
     }
@@ -79,9 +85,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         }
         else {
+//            routeInfo = new RouteInfo("name");
+//            arrayPoints = new ArrayList<LatLng>();
             final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+
         }
 
     }
@@ -98,10 +107,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private GoogleMap mMap;
-    private GoogleMap gMap;
-    private ArrayList<LatLng> arrayPoints;
-    double p_lat, p_lng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,26 +123,30 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        routeInfo = new RouteInfo();
 
-        arrayPoints = new ArrayList<LatLng>();
+
     }
+/*
+    CalcDistance(시작 위치, 나중 위치)
 
-    public double CalcDistance(LatLng s_latlng, LatLng l_latlng){
-        double dDistance = 0;
-        double dLat1Rad = ((double)s_latlng.latitude)*(Math.PI/180.0);
-        double dLong1Rad = ((double)s_latlng.longitude)*(Math.PI/180.0);
-        double dLat2Rad = ((double)l_latlng.latitude)*(Math.PI/180.0);
-        double dLong2Rad = ((double)l_latlng.longitude)*(Math.PI/180.0);
-
-        double dLongitude = dLong2Rad - dLong1Rad;
-        double dLatitude = dLat2Rad - dLat1Rad;
-        double a = Math.pow(Math.sin(dLatitude/2.0), 2.0) + Math.cos(dLat1Rad) * Math.cos(dLat2Rad) * Math.pow(Math.sin(dLongitude/2.0),2.0);
-        double c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0-a));
-        double kEarth = 6376.5;
-        dDistance = kEarth * c;
-
-        return dDistance;
-    }
+ */
+//    public double CalcDistance(LatLng s_latlng, LatLng l_latlng){
+//        double dDistance = 0;
+//        double dLat1Rad = ((double)s_latlng.latitude)*(Math.PI/180.0);
+//        double dLong1Rad = ((double)s_latlng.longitude)*(Math.PI/180.0);
+//        double dLat2Rad = ((double)l_latlng.latitude)*(Math.PI/180.0);
+//        double dLong2Rad = ((double)l_latlng.longitude)*(Math.PI/180.0);
+//
+//        double dLongitude = dLong2Rad - dLong1Rad;
+//        double dLatitude = dLat2Rad - dLat1Rad;
+//        double a = Math.pow(Math.sin(dLatitude/2.0), 2.0) + Math.cos(dLat1Rad) * Math.cos(dLat2Rad) * Math.pow(Math.sin(dLongitude/2.0),2.0);
+//        double c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0-a));
+//        double kEarth = 6376.5;
+//        dDistance = kEarth * c;
+//
+//        return dDistance;
+//    }
 
     final LocationListener gpsLocationListener = new LocationListener(){
         public void onLocationChanged(Location location){
@@ -148,12 +157,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             Double longitude = p_lng;
             LatLng p_latlng = new LatLng(p_lat, p_lng);
 
-            if(arrayPoints.size()>=1){
-                arrayPoints.add(p_latlng);
-                LatLng s_latlng = arrayPoints.get(arrayPoints.size()-2);
-                LatLng l_latlng = arrayPoints.get(arrayPoints.size()-1);
+            if(routeInfo.arrayLocations.size()>=1){
+                routeInfo.addWayPoint(location);
+//                arrayPoints.add(p_latlng);
+//              LatLng s_latlng = arrayPoints.get(arrayPoints.size()-2);
+//              LatLng l_latlng = arrayPoints.get(arrayPoints.size()-1);
+//                LatLng s_latlng = routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-2);
+//                LatLng l_latlng = routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-1);
 
-                if(CalcDistance(s_latlng, l_latlng) < 0.01) {
+                if(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size()-2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size()-1)) < 100) {
 
                     gMap.clear();
 
@@ -161,7 +173,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     mOptions.title("마커 좌표");
 
 
-                    mOptions.snippet(String.valueOf(CalcDistance(s_latlng, l_latlng)));
+                    mOptions.snippet(String.valueOf(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size()-2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size()-1))));
                     mOptions.position(p_latlng);
 
                     gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 18));
@@ -171,13 +183,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     PolylineOptions polylineOptions = new PolylineOptions();
                     polylineOptions.color(Color.RED);
                     polylineOptions.width(5);
-                    polylineOptions.addAll(arrayPoints);
+                    polylineOptions.addAll(routeInfo.arrayPoints);
                     gMap.addPolyline(polylineOptions);
                 }else{
-                    arrayPoints.remove(arrayPoints.size()-1);
+                    routeInfo.remove(routeInfo.arrayLocations.size()-1);
                 }
 
-        }else{
+            }else{
                 gMap.clear();
 
                 MarkerOptions mOptions = new MarkerOptions();
@@ -190,14 +202,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 18));
                 gMap.addMarker(mOptions);
 
-                arrayPoints.add(p_latlng);
+//                arrayPoints.add(p_latlng);
+                routeInfo.addWayPoint(location);
+
 
                 PolylineOptions polylineOptions = new PolylineOptions();
                 polylineOptions.color(Color.RED);
                 polylineOptions.width(5);
-                polylineOptions.addAll(arrayPoints);
+                polylineOptions.addAll(routeInfo.arrayPoints);
                 gMap.addPolyline(polylineOptions);
-        }
+            }
 
             // Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(p_lat, p_lng)).radius(3).strokeColor(Color.RED).fillColor(Color.BLUE));
 
@@ -303,7 +317,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener(){
             public void onMapLongClick(LatLng point){
                 mMap.clear();
-                arrayPoints.clear();
+                routeInfo.clear();
             }
         });
 
