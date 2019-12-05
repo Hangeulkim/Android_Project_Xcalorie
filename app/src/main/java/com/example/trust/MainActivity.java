@@ -14,6 +14,8 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
+import java.util.ArrayList;
+import java.lang.String;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 
@@ -97,7 +100,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private GoogleMap gMap;
-
+    private ArrayList<LatLng> arrayPoints;
     double p_lat, p_lng;
 
     @Override
@@ -116,7 +119,24 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        arrayPoints = new ArrayList<LatLng>();
+    }
 
+    public double CalcDistance(LatLng s_latlng, LatLng l_latlng){
+        double dDistance = 0;
+        double dLat1Rad = ((double)s_latlng.latitude)*(Math.PI/180.0);
+        double dLong1Rad = ((double)s_latlng.longitude)*(Math.PI/180.0);
+        double dLat2Rad = ((double)l_latlng.latitude)*(Math.PI/180.0);
+        double dLong2Rad = ((double)l_latlng.longitude)*(Math.PI/180.0);
+
+        double dLongitude = dLong2Rad - dLong1Rad;
+        double dLatitude = dLat2Rad - dLat1Rad;
+        double a = Math.pow(Math.sin(dLatitude/2.0), 2.0) + Math.cos(dLat1Rad) * Math.cos(dLat2Rad) * Math.pow(Math.sin(dLongitude/2.0),2.0);
+        double c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0-a));
+        double kEarth = 6376.5;
+        dDistance = kEarth * c;
+
+        return dDistance;
     }
 
     final LocationListener gpsLocationListener = new LocationListener(){
@@ -124,22 +144,60 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             // String provider = location.getProvider();
             p_lng = location.getLongitude();
             p_lat = location.getLatitude();
-
-
-            MarkerOptions mOptions = new MarkerOptions();
-            mOptions.title("마커 좌표");
             Double latitude = p_lat;
             Double longitude = p_lng;
             LatLng p_latlng = new LatLng(p_lat, p_lng);
 
-            mOptions.snippet(latitude.toString() + "," + longitude.toString());
-            mOptions.position(p_latlng);
+            if(arrayPoints.size()>=1){
+                arrayPoints.add(p_latlng);
+                LatLng s_latlng = arrayPoints.get(arrayPoints.size()-2);
+                LatLng l_latlng = arrayPoints.get(arrayPoints.size()-1);
 
-//            CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);
-            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 18));
+                if(CalcDistance(s_latlng, l_latlng) < 0.01) {
 
-            gMap.addMarker(mOptions);
+                    gMap.clear();
 
+                    MarkerOptions mOptions = new MarkerOptions();
+                    mOptions.title("마커 좌표");
+
+
+                    mOptions.snippet(String.valueOf(CalcDistance(s_latlng, l_latlng)));
+                    mOptions.position(p_latlng);
+
+                    gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 18));
+                    gMap.addMarker(mOptions);
+
+
+                    PolylineOptions polylineOptions = new PolylineOptions();
+                    polylineOptions.color(Color.RED);
+                    polylineOptions.width(5);
+                    polylineOptions.addAll(arrayPoints);
+                    gMap.addPolyline(polylineOptions);
+                }else{
+                    arrayPoints.remove(arrayPoints.size()-1);
+                }
+
+        }else{
+                gMap.clear();
+
+                MarkerOptions mOptions = new MarkerOptions();
+                mOptions.title("마커 좌표");
+
+
+                mOptions.snippet(latitude.toString() + "," + longitude.toString());
+                mOptions.position(p_latlng);
+
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 18));
+                gMap.addMarker(mOptions);
+
+                arrayPoints.add(p_latlng);
+
+                PolylineOptions polylineOptions = new PolylineOptions();
+                polylineOptions.color(Color.RED);
+                polylineOptions.width(5);
+                polylineOptions.addAll(arrayPoints);
+                gMap.addPolyline(polylineOptions);
+        }
 
             // Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(p_lat, p_lng)).radius(3).strokeColor(Color.RED).fillColor(Color.BLUE));
 
@@ -181,6 +239,63 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                 mMap.addMarker(mOptions);
 
+//
+//                Double latitude = point.latitude;
+//                Double longitude = point.longitude;
+//                LatLng p_latlng = new LatLng(latitude, longitude);
+
+//                if(arrayPoints.size()>=1){
+//                    arrayPoints.add(p_latlng);
+//                    LatLng s_latlng = arrayPoints.get(arrayPoints.size()-2);
+//                    LatLng l_latlng = arrayPoints.get(arrayPoints.size()-1);
+//
+//                    if(CalcDistance(s_latlng, l_latlng) < 0.1) {
+//
+//                        //gMap.clear();
+//
+//                        MarkerOptions mOptions = new MarkerOptions();
+//                        mOptions.title("마커 좌표");
+//
+//
+//                        mOptions.snippet(String.valueOf(CalcDistance(s_latlng, l_latlng)));
+//                        mOptions.position(p_latlng);
+//
+//                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 18));
+//                        gMap.addMarker(mOptions);
+//
+//
+//
+//                        PolylineOptions polylineOptions = new PolylineOptions();
+//                        polylineOptions.color(Color.RED);
+//                        polylineOptions.width(5);
+//                        polylineOptions.addAll(arrayPoints);
+//                        gMap.addPolyline(polylineOptions);
+//                    }else{
+//                        arrayPoints.remove(arrayPoints.size()-1);
+//                    }
+//
+//                }else{
+//                    //gMap.clear();
+//
+//                    MarkerOptions mOptions = new MarkerOptions();
+//                    mOptions.title("마커 좌표");
+//
+//
+//                    mOptions.snippet(latitude.toString() + "," + longitude.toString());
+//                    mOptions.position(p_latlng);
+//
+//                    gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 18));
+//                    gMap.addMarker(mOptions);
+//
+//                    arrayPoints.add(p_latlng);
+//
+//                    PolylineOptions polylineOptions = new PolylineOptions();
+//                    polylineOptions.color(Color.RED);
+//                    polylineOptions.width(5);
+//                    polylineOptions.addAll(arrayPoints);
+//                    gMap.addPolyline(polylineOptions);
+//                }
+
             }
 
         });
@@ -188,7 +303,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener(){
             public void onMapLongClick(LatLng point){
                 mMap.clear();
-                //arrayPoints.clear();
+                arrayPoints.clear();
             }
         });
 
