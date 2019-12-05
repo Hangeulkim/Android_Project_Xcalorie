@@ -9,6 +9,7 @@ public class RouteInfo {
     public ArrayList<LatLng> arrayPoints;
     //    public ArrayList<Long> arrayTimes;
     public ArrayList<Double> arraySpeeds;
+    public ArrayList<LatLng> arrayVector;
     public ArrayList<Location> arrayLocations;
 
     public RouteInfo(String name){
@@ -16,13 +17,18 @@ public class RouteInfo {
         arrayPoints = new ArrayList<LatLng>();
         arraySpeeds = new ArrayList<Double>();
         arrayLocations = new ArrayList<Location>();
+        arrayVector = new ArrayList<LatLng>();
     }
 
     public RouteInfo(){
         arrayPoints = new ArrayList<LatLng>();
         arraySpeeds = new ArrayList<Double>();
         arrayLocations = new ArrayList<Location>();
+        arrayVector = new ArrayList<LatLng>();
     }
+
+
+
 
     public double getSpeed(){
         double p_speed = 0;
@@ -36,22 +42,42 @@ public class RouteInfo {
         return p_speed;
     }
 
+    public LatLng getVector(){
+        Double delta_latitude;
+        Double delta_longitude;
+
+        if(arrayVector.size()>=1){
+            delta_latitude = arrayLocations.get(arrayLocations.size()-1).getLatitude() - arrayLocations.get(arrayLocations.size()-2).getLatitude();
+            delta_longitude = arrayLocations.get(arrayLocations.size()-1).getLongitude() - arrayLocations.get(arrayLocations.size()-2).getLongitude();
+
+            LatLng p_vector = new LatLng(delta_latitude, delta_longitude);
+
+            return p_vector;
+        }
+
+        LatLng p_vector = new LatLng(0, 0);
+        return p_vector;
+    }
+
     public void remove(int index){
         arrayPoints.remove(index);
         arraySpeeds.remove(index);
         arrayLocations.remove(index);
+        arrayVector.remove(index);
     }
 
     public void clear(){
         arrayPoints.clear();
         arraySpeeds.clear();
         arrayLocations.clear();
+        arrayVector.clear();
     }
 
     public void addWayPoint(Location location){
         arrayLocations.add(location);
         arrayPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
-        arraySpeeds.add(this.getSpeed());
+        arraySpeeds.add(getSpeed());
+        arrayVector.add(getVector());
     }
 
 }
