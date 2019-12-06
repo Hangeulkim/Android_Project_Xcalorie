@@ -11,6 +11,8 @@ public class RouteInfo {
     public ArrayList<Double> arraySpeeds;
     public ArrayList<LatLng> arrayVector;
     public ArrayList<Location> arrayLocations;
+    public boolean degree_b = true;
+
 
     public RouteInfo(String name){
         this.name = name;
@@ -57,6 +59,15 @@ public class RouteInfo {
 
         LatLng p_vector = new LatLng(0, 0);
         return p_vector;
+    }
+
+    public double vectorArrow(LatLng s_latlng, LatLng l_latlng){
+        double degree = 0;
+
+        degree = ((s_latlng.latitude * l_latlng.latitude) + (s_latlng.longitude * l_latlng.longitude))
+                / (Math.sqrt(Math.pow(s_latlng.latitude, 2.0) + Math.pow(s_latlng.longitude, 2.0)) * Math.sqrt(Math.pow(l_latlng.latitude, 2.0) + Math.pow(l_latlng.longitude, 2.0)));
+
+        return degree;
     }
 
     public void remove(int index){
