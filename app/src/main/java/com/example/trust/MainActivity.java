@@ -165,26 +165,54 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //                LatLng s_latlng = routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-2);
 //                LatLng l_latlng = routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-1);
 
-                if(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size()-2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size()-1)) < 100) {
+                if(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size()-2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size()-1)) < 10) {
+                    if(routeInfo.vectorArrow(routeInfo.arrayVector.get(routeInfo.arrayVector.size()-2), routeInfo.arrayVector.get(routeInfo.arrayVector.size()-1)) <= (1/Math.sqrt(2.0))) {
+                        if(routeInfo.degree_b == true){
+                            routeInfo.degree_b = false;
+                        }else{
+                            routeInfo.remove(routeInfo.arrayLocations.size()-2);
+                            routeInfo.degree_b = true;
 
-                    gMap.clear();
+                            gMap.clear();
 
-                    MarkerOptions mOptions = new MarkerOptions();
-                    mOptions.title("마커 좌표");
-
-
-                    mOptions.snippet(String.valueOf(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size()-2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size()-1))));
-                    mOptions.position(p_latlng);
-
-                    gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 18));
-                    gMap.addMarker(mOptions);
+                            MarkerOptions mOptions = new MarkerOptions();
+                            mOptions.title("마커 좌표");
 
 
-                    PolylineOptions polylineOptions = new PolylineOptions();
-                    polylineOptions.color(Color.RED);
-                    polylineOptions.width(5);
-                    polylineOptions.addAll(routeInfo.arrayPoints);
-                    gMap.addPolyline(polylineOptions);
+                            mOptions.snippet(String.valueOf(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1))));
+                            mOptions.position(p_latlng);
+
+                            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 18));
+                            gMap.addMarker(mOptions);
+
+
+                            PolylineOptions polylineOptions = new PolylineOptions();
+                            polylineOptions.color(Color.RED);
+                            polylineOptions.width(5);
+                            polylineOptions.addAll(routeInfo.arrayPoints);
+                            gMap.addPolyline(polylineOptions);
+                        }
+
+                    }else{
+                        gMap.clear();
+
+                        MarkerOptions mOptions = new MarkerOptions();
+                        mOptions.title("마커 좌표");
+
+
+                        mOptions.snippet(String.valueOf(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1))));
+                        mOptions.position(p_latlng);
+
+                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 18));
+                        gMap.addMarker(mOptions);
+
+
+                        PolylineOptions polylineOptions = new PolylineOptions();
+                        polylineOptions.color(Color.RED);
+                        polylineOptions.width(5);
+                        polylineOptions.addAll(routeInfo.arrayPoints);
+                        gMap.addPolyline(polylineOptions);
+                    }
                 }else{
                     routeInfo.remove(routeInfo.arrayLocations.size()-1);
                 }
