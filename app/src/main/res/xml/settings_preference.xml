@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="환경설정">
+        <SwitchPreference
+            android:key="Vibrate"
+            android:title="진동 알림"/>
+        <SwitchPreference
+            android:key="Sound"
+            android:title="소리 알림"/>
+        <ListPreference
+            android:entries="@array/How_to_Ex"
+            android:entryValues="@array/How_to_Ex"
+            android:key="exercise"
+            android:summary="걷기"
+            android:title="운동 방식"/>
+    </PreferenceCategory>
+</PreferenceScreen>
