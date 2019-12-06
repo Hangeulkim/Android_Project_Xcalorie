@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -46,6 +47,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     ImageButton Start_More;
     ImageButton Start_Start;
+    ImageButton Start_Fast;
+    ImageButton Start_Timer;
+    ImageButton Start_Path;
 
     private GoogleMap mMap;
     private GoogleMap gMap;
@@ -77,26 +81,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Click_Start_Start(View view){
-        Start_More.setVisibility(View.VISIBLE);
-        Start_Start.setVisibility(View.INVISIBLE);
-
-        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        }
-        else {
-//            routeInfo = new RouteInfo("name");
-//            arrayPoints = new ArrayList<LatLng>();
-            final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
-
-        }
+        Start_Start.setVisibility(View.GONE);
+        Select_Start_Layout.setVisibility(View.VISIBLE);
 
     }
 
     public void Click_Start_Timer(View view){
-
+        Start_Fast.setVisibility(View.INVISIBLE);
+        Start_Timer.setVisibility(View.INVISIBLE);
     }
 
     public void Click_Start_Select(View view){
@@ -104,7 +96,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Click_Start_Fast(View view){
+        Start_Fast.setVisibility(View.INVISIBLE);
+        Start_Timer.setVisibility(View.INVISIBLE);
+        Start_Path.setVisibility(View.INVISIBLE);
 
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+        else {
+            final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+        }
     }
 
 
@@ -119,6 +123,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         Start_More=(ImageButton)findViewById(R.id.Start_More);
         Start_Start=(ImageButton)findViewById(R.id.Start_Start);
+        Start_Fast=(ImageButton)findViewById(R.id.Start_Fast);
+        Start_Timer=(ImageButton)findViewById(R.id.Start_Timer);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

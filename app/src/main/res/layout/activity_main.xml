@@ -42,7 +42,8 @@
             android:layout_height="wrap_content"
             android:text="설정"
             android:onClick="Click_Select_Setting"
-            android:src="@drawable/button_settings"/>
+            android:src="@drawable/button_settings"
+            android:background="#00ffffff"/>
 
         <ImageButton
             android:id="@+id/Select_Makers"
@@ -50,7 +51,8 @@
             android:layout_height="wrap_content"
             android:text="제작자"
             android:onClick="Click_Select_Makers"
-            android:src="@drawable/button_developers"/>
+            android:src="@drawable/button_developers"
+            android:background="#00ffffff"/>
 
         <ImageButton
             android:id="@+id/More_Quit"
@@ -58,7 +60,8 @@
             android:layout_height="wrap_content"
             android:text="x"
             android:onClick="Click_More_Quit"
-            android:src="@drawable/button_close"/>
+            android:src="@drawable/button_close"
+            android:background="#00ffffff"/>
 
     </LinearLayout>
 
@@ -94,7 +97,7 @@
             android:gravity="bottom|center_horizontal"
             android:id="@+id/Select_Start"
             android:visibility="gone"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="15dp">
@@ -104,20 +107,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="타이머"
-                android:layout_alignTop="@id/Start_Select"
-                android:layout_alignBottom="@id/Start_Select"
+                android:src="@drawable/timer"
                 android:onClick="Click_Start_Timer"
-                android:background="#00ffffff"/>
-
-            <ImageButton
-                android:id="@+id/Start_Select"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:text="경로/구간\n지정"
-                android:onClick="Click_Start_Select"
-                android:layout_toRightOf="@id/Start_Timer"
                 android:background="#00ffffff"/>
 
             <ImageButton
@@ -125,8 +117,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="빠른\n시작"
+                android:layout_toRightOf="@id/Start_Timer"
+                android:src="@drawable/quickstart"
                 android:onClick="Click_Start_Fast"
-                android:layout_toRightOf="@id/Start_Select"
+                android:background="#00ffffff"/>
+
+
+            <ImageButton
+                android:id="@+id/Start_Path"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="경로/구간\n지정"
+                android:layout_toRightOf="@id/Start_Fast"
+                android:src="@drawable/path"
+                android:layout_marginLeft="16dp"
+                android:onClick="Click_Start_Select"
                 android:background="#00ffffff"/>
 
         </RelativeLayout>
