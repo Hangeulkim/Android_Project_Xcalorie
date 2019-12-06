@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="How_to_Ex">
+        <item>걷기</item>
+        <item>뛰기</item>
+        <item>자전거</item>
+    </string-array>
+</resources>
