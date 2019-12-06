@@ -50,12 +50,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     ImageButton Start_Fast;
     ImageButton Start_Timer;
     ImageButton Start_Path;
+    ImageButton End;
 
     private GoogleMap mMap;
     private GoogleMap gMap;
     //    private ArrayList<LatLng> arrayPoints;
     double p_lat, p_lng;
     private RouteInfo routeInfo;
+
+    public void Now_location(View view){
+
+    }
 
     public void Click_Select_Log(View view){
 
@@ -87,18 +92,18 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Click_Start_Timer(View view){
-        Start_Fast.setVisibility(View.INVISIBLE);
-        Start_Timer.setVisibility(View.INVISIBLE);
+        Start_First_Layout.setVisibility(View.GONE);
+        End.setVisibility(View.VISIBLE);
     }
 
     public void Click_Start_Select(View view){
-
+        Start_First_Layout.setVisibility(View.GONE);
+        End.setVisibility(View.VISIBLE);
     }
 
     public void Click_Start_Fast(View view){
-        Start_Fast.setVisibility(View.INVISIBLE);
-        Start_Timer.setVisibility(View.INVISIBLE);
-        Start_Path.setVisibility(View.INVISIBLE);
+        Start_First_Layout.setVisibility(View.GONE);
+        End.setVisibility(View.VISIBLE);
 
         if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -109,6 +114,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
         }
+    }
+
+    public void Click_End(View view){
+        Start_First_Layout.setVisibility(View.VISIBLE);
+        End.setVisibility(View.GONE);
     }
 
 
@@ -125,6 +135,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Start_Start=(ImageButton)findViewById(R.id.Start_Start);
         Start_Fast=(ImageButton)findViewById(R.id.Start_Fast);
         Start_Timer=(ImageButton)findViewById(R.id.Start_Timer);
+        Start_Path=(ImageButton)findViewById(R.id.Start_Path);
+        End=(ImageButton)findViewById(R.id.End);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

@@ -18,6 +18,35 @@
         map:cameraZoom = "15"
         />
 
+    <TextView
+        android:id="@+id/speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="속도"
+        android:visibility="visible"
+        android:layout_gravity="top|left"/>
+
+    <ImageButton
+        android:id="@+id/Now_Location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="현재 위치"
+        android:visibility="visible"
+        android:layout_gravity="top|right"
+        android:onClick="Now_location"/>
+
+    <ImageButton
+        android:id="@+id/End"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="종료하기"
+        android:src="@drawable/button_finish"
+        android:layout_gravity="bottom|center"
+        android:onClick="Click_End"
+        android:visibility="gone"
+        android:background="#00ffffff"
+        android:layout_marginBottom="30dp"/>
+
     <LinearLayout
         android:id="@+id/Select_More"
         android:layout_width="match_parent"
