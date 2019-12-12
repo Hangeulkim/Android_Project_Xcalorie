@@ -54,6 +54,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     ImageButton Start_Timer;
     ImageButton Start_Path;
     ImageButton End;
+    ImageButton Location;
 
     private GoogleMap mMap;
     private GoogleMap gMap;
@@ -62,7 +63,18 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private RouteInfo routeInfo;
 
     public void Now_location(View view){
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+        else {
+//            routeInfo = new RouteInfo("name");
+//            arrayPoints = new ArrayList<LatLng>();
+            final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
 
+        }
     }
 
     public void Click_Select_Log(View view){
@@ -89,6 +101,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Click_Start_Start(View view){
+        Location.setVisibility(View.VISIBLE);
         Start_More.setVisibility(View.VISIBLE);
         Start_Start.setVisibility(View.INVISIBLE);
         Select_Start_Layout.setVisibility(View.VISIBLE);
@@ -97,7 +110,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         }
         else {
@@ -152,6 +165,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Select_More_Layout=(LinearLayout)findViewById(R.id.Select_More);
         Select_Start_Layout=(RelativeLayout)findViewById(R.id.Select_Start);
         Start_First_Layout=(LinearLayout)findViewById(R.id.Start_First);
+
+        Location=(ImageButton)findViewById(R.id.Now_Location);
 
         Start_More=(ImageButton)findViewById(R.id.Start_More);
         Start_Start=(ImageButton)findViewById(R.id.Start_Start);

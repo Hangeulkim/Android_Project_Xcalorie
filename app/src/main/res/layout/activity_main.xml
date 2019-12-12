@@ -27,12 +27,14 @@
         android:layout_gravity="top|left"/>
 
     <ImageButton
+        android:visibility="gone"
         android:id="@+id/Now_Location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:text="현재 위치"
-        android:visibility="visible"
         android:layout_gravity="top|right"
+        android:src="@drawable/gps"
+        android:background="#00ffffff"
         android:onClick="Now_location"/>
 
     <ImageButton
@@ -161,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:text="빠른\n시작"
                 android:layout_toRightOf="@id/Start_Timer"
-                android:layout_gravity="bottom|center"
+                android:layout_gravity="bottom|center_horizontal"
                 android:layout_marginBottom="16dp"
                 android:src="@drawable/quickstart"
                 android:onClick="Click_Start_Fast"
