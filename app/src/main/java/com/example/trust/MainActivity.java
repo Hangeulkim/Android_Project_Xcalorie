@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
@@ -152,6 +153,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Click_End(View view){
+        SQLiteDatabase sqlDB=null;
+        sqlDB=SQLiteDatabase.openOrCreateDatabase(routeInfo.name,null);
+
+        sqlDB.execSQL("CREATE TABLE EXERCISE("+
+                "double latitude," +
+                "double longitude," +
+                "double speed"+
+                ")");
+
         Start_First_Layout.setVisibility(View.VISIBLE);
         End.setVisibility(View.GONE);
     }

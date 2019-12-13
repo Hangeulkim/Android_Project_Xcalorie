@@ -47,7 +47,7 @@
         android:onClick="Click_End"
         android:visibility="gone"
         android:background="#00ffffff"
-        android:layout_marginBottom="30dp"/>
+        android:layout_marginBottom="30dp" />
 
     <LinearLayout
         android:id="@+id/Select_More"
