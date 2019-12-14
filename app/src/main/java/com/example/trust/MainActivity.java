@@ -2,6 +2,7 @@ package com.example.trust;
 
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -187,6 +188,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Click_End(View view){
+        /*
         SQLiteDatabase sqlDB=null;
         sqlDB=SQLiteDatabase.openOrCreateDatabase(routeInfo.name,null);
 
@@ -195,8 +197,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 "double longitude," +
                 "double speed"+
                 ")");
-
+*/
         routeInfo.moving = false;
+        DBHelper helper = new DBHelper(this);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues value = new ContentValues();
+
+        //이부분에 끝나고 저장할 것들 넣어주면 댑니다. 다 String 타입으로 통일했어요
+        value.put("title", "장소");
+        value.put("latitude", "testLatitude");
+        value.put("longitude", "testLongitude");
+        value.put("speed", "testSpeed");
+
+        db.insert("log", null, value);
         Start_First_Layout.setVisibility(View.VISIBLE);
         End.setVisibility(View.GONE);
     }
