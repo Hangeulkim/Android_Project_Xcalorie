@@ -62,7 +62,7 @@
             android:id="@+id/Select_Log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="기록"
+            android:layout_marginBottom="10dp"
             android:onClick="Click_Select_Log"
             android:src="@drawable/button_record"
             android:background="#00FFFFFF"/>
@@ -71,8 +71,8 @@
             android:id="@+id/Select_Setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="설정"
             android:onClick="Click_Select_Setting"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/button_settings"
             android:background="#00ffffff"/>
 
@@ -80,8 +80,8 @@
             android:id="@+id/Select_Makers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="제작자"
             android:onClick="Click_Select_Makers"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/button_developers"
             android:background="#00ffffff"/>
 
@@ -89,8 +89,8 @@
             android:id="@+id/More_Quit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="x"
             android:onClick="Click_More_Quit"
+            android:layout_marginBottom="20dp"
             android:src="@drawable/button_close"
             android:background="#00ffffff"/>
 
@@ -108,7 +108,7 @@
             android:id="@+id/Start_More"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="25dp"
             android:onClick="Click_Start_More"
             android:src="@drawable/button_detail"
             android:text="더보기"
@@ -118,7 +118,7 @@
             android:id="@+id/Start_Start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="16dp"
             android:text="시작하기"
             android:onClick="Click_Start_Start"
             android:src="@drawable/button_start"
@@ -127,7 +127,6 @@
 
 
         <RelativeLayout
-            android:gravity="bottom|center_horizontal"
             android:id="@+id/Select_Start"
             android:visibility="gone"
             android:layout_width="match_parent"
@@ -144,27 +143,23 @@
                 android:text = "현재 속도"
                 android:textSize="50sp"
                 android:textColor="#FFFFFF"
-                ></TextView>
+                />
 
             <ImageButton
                 android:id="@+id/Start_Timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="타이머"
                 android:src="@drawable/timer"
                 android:onClick="Click_Start_Timer"
+                android:layout_toLeftOf="@id/Start_Fast"
                 android:layout_marginRight="16dp"
-                android:layout_marginLeft="20dp"
                 android:background="#00ffffff"/>
 
             <ImageButton
                 android:id="@+id/Start_Fast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="빠른\n시작"
-                android:layout_toRightOf="@id/Start_Timer"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="16dp"
+                android:layout_centerInParent="true"
                 android:src="@drawable/quickstart"
                 android:onClick="Click_Start_Fast"
                 android:background="#00ffffff"/>
@@ -174,7 +169,6 @@
                 android:id="@+id/Start_Path"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="경로/구간\n지정"
                 android:layout_toRightOf="@id/Start_Fast"
                 android:src="@drawable/path"
                 android:layout_marginLeft="16dp"

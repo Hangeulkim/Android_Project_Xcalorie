@@ -1,11 +1,9 @@
 package com.example.trust;
 
 
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -14,11 +12,17 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.core.app.ActivityCompat;
-import java.util.ArrayList;
-import java.lang.String;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,20 +30,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -79,15 +69,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Click_Select_Log(View view){
-
+        Intent intent = new Intent(this, RecordsScrollingActivity.class);
+        startActivity(intent);
     }
 
     public void Click_Select_Setting(View view){
-
+        Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
     }
 
     public void Click_Select_Makers(View view){
-
+        Toast.makeText(getApplicationContext(), "숭실대학교 김찬진, 임가균, 정종인, 2019.12", Toast.LENGTH_LONG).show();
     }
 
     public void Click_More_Quit(View view){
