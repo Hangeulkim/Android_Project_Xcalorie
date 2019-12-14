@@ -45,7 +45,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     ImageButton Start_Timer;
     ImageButton Start_Path;
     ImageButton End;
-    ImageButton Location;
+    ImageButton now_Location;
 
     private GoogleMap mMap;
     private GoogleMap gMap;
@@ -54,18 +54,23 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private RouteInfo routeInfo;
 
     public void Now_location(View view){
-        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        if(routeInfo.arrayPoints.size()-1 >= 0) {
+            LatLng p_latlng = routeInfo.arrayPoints.get(routeInfo.arrayPoints.size() - 1);
+            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 20));
         }
-        else {
-//            routeInfo = new RouteInfo("name");
-//            arrayPoints = new ArrayList<LatLng>();
-            final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
-
-        }
+//        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
+//                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+//        }
+//        else {
+//
+////            routeInfo = new RouteInfo("name");
+////            arrayPoints = new ArrayList<LatLng>();
+//            final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
+//            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+//
+//        }
     }
 
     public void Click_Select_Log(View view){
@@ -94,7 +99,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Click_Start_Start(View view){
-        Location.setVisibility(View.VISIBLE);
+//        now_Location.setVisibility(View.VISIBLE);
         Start_More.setVisibility(View.VISIBLE);
         Start_Start.setVisibility(View.INVISIBLE);
         Select_Start_Layout.setVisibility(View.VISIBLE);
@@ -102,45 +107,82 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         //Speed.setVisibility(View.VISIBLE);
 
 
-        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        }
-        else {
-//            routeInfo = new RouteInfo("name");
-//            arrayPoints = new ArrayList<LatLng>();
-            final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+//        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
+//                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+//        }
+//        else {
+////            routeInfo = new RouteInfo("name");
+////            arrayPoints = new ArrayList<LatLng>();
+//            final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
+//            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+//
+//        }
+        routeInfo = new RouteInfo();
 
-        }
         Start_Start.setVisibility(View.GONE);
         Select_Start_Layout.setVisibility(View.VISIBLE);
 
     }
 
     public void Click_Start_Timer(View view){
+        now_Location.setVisibility(View.VISIBLE);
         Start_First_Layout.setVisibility(View.GONE);
         End.setVisibility(View.VISIBLE);
-    }
-
-    public void Click_Start_Select(View view){
-        Start_First_Layout.setVisibility(View.GONE);
-        End.setVisibility(View.VISIBLE);
-    }
-
-    public void Click_Start_Fast(View view){
-        Start_First_Layout.setVisibility(View.GONE);
-        End.setVisibility(View.VISIBLE);
+        routeInfo.set_selectMenu(1);
+        routeInfo.moving = true;
 
         if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         }
         else {
-            final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+            if(routeInfo.moving == true) {
+                final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
+                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+            }
+        }
+    }
+
+    public void Click_Start_Select(View view){
+        now_Location.setVisibility(View.VISIBLE);
+        Start_First_Layout.setVisibility(View.GONE);
+        End.setVisibility(View.VISIBLE);
+        routeInfo.set_selectMenu(3);
+        routeInfo.moving = true;
+
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+        else {
+            if(routeInfo.moving == true) {
+                final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
+                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+            }
+        }
+    }
+
+    public void Click_Start_Fast(View view){
+        now_Location.setVisibility(View.VISIBLE);
+        Start_First_Layout.setVisibility(View.GONE);
+        End.setVisibility(View.VISIBLE);
+        routeInfo.set_selectMenu(2);
+        routeInfo.moving = true;
+
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+        else {
+            if(routeInfo.moving == true) {
+                final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
+                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
+            }
         }
     }
 
@@ -154,6 +196,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 "double speed"+
                 ")");
 
+        routeInfo.moving = false;
         Start_First_Layout.setVisibility(View.VISIBLE);
         End.setVisibility(View.GONE);
     }
@@ -168,7 +211,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Select_Start_Layout=(RelativeLayout)findViewById(R.id.Select_Start);
         Start_First_Layout=(LinearLayout)findViewById(R.id.Start_First);
 
-        Location=(ImageButton)findViewById(R.id.Now_Location);
+        now_Location=(ImageButton)findViewById(R.id.Now_Location);
 
         Start_More=(ImageButton)findViewById(R.id.Start_More);
         Start_Start=(ImageButton)findViewById(R.id.Start_Start);
@@ -180,7 +223,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        routeInfo = new RouteInfo();
+//        routeInfo = new RouteInfo();
 
 
     }
@@ -280,6 +323,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
             }else{
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 20));
                 drawPath(location, p_latlng, latitude.toString() + "," + longitude.toString());
                 Speed.setText("0 m/s");
 //                gMap.clear();
@@ -333,7 +377,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mOptions.snippet(string);
         mOptions.position(p_latlng);
 
-        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 20));
+//        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 20));
         gMap.addMarker(mOptions);
 
 //                arrayPoints.add(p_latlng);

@@ -12,6 +12,8 @@ public class RouteInfo {
     public ArrayList<LatLng> arrayVector;
     public ArrayList<Location> arrayLocations;
     public boolean degree_b = true;
+    public int select_menu = 0;     //타이머 = 1, 빠시 = 2, 경로지정 = 3;
+    public boolean moving = false;  //움직이면 true, 끝나면 false;
 
 
     public RouteInfo(String name){
@@ -29,8 +31,9 @@ public class RouteInfo {
         arrayVector = new ArrayList<LatLng>();
     }
 
-
-
+    public void set_selectMenu(int i){
+        select_menu = i;
+    }
 
     public double getSpeed(){
         double p_speed = 0;
