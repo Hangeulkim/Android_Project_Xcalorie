@@ -3,7 +3,8 @@ package com.example.trust;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -17,6 +18,8 @@ public class RecordsScrollingActivity extends AppCompatActivity {
     public ListView mLvDatabase = null;
     SQLiteDatabase db = null;
     DBHelper helper = null;
+    Cursor cursor = null;
+    CursorAdapter cursorAdapter = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,16 +28,13 @@ public class RecordsScrollingActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mLvDatabase = findViewById(R.id.lv_database);
-        //mLvDatabase.setOnItemLongClickListener(this);
+        mLvDatabase.setOnItemLongClickListener(mLongClickListener);
 
 
         helper = new DBHelper(this);
         db = helper.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select * from log", null);
-        cursor.moveToFirst();
-        cursor.moveToNext();
-        Log.d("listview", cursor.getString(1).toString());
-        CursorAdapter cursorAdapter = new SimpleCursorAdapter(this,
+        cursor = db.rawQuery("select * from log", null);
+        cursorAdapter = new SimpleCursorAdapter(this,
                 android.R.layout.simple_list_item_activated_2,
                 cursor,
                 new String[]{"title", "speed"},
@@ -45,5 +45,21 @@ public class RecordsScrollingActivity extends AppCompatActivity {
         //insertDB("상도동", "123.4444", "987.7777", "1762");
 
     }
+
+    AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
+        //길게 누르면 기록에서 삭제
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+            cursor.moveToPosition(position);
+            db = helper.getWritableDatabase();
+            db.delete("log", "title=?", new String[]{cursor.getString(1)});
+
+            db = helper.getReadableDatabase();
+            cursor = db.query("log", null, null, null, null, null, null);
+            cursorAdapter.changeCursor(cursor);
+            cursorAdapter.notifyDataSetChanged();
+            return true;
+        }
+    };
 
 }

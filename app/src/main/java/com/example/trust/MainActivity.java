@@ -32,6 +32,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
     LinearLayout Select_More_Layout;
@@ -202,9 +205,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         DBHelper helper = new DBHelper(this);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues value = new ContentValues();
+        SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");;
+        Date time = new Date();
 
+        String time1 = format.format(time);
         //이부분에 끝나고 저장할 것들 넣어주면 댑니다. 다 String 타입으로 통일했어요
-        value.put("title", "장소");
+        value.put("title", time1);
         value.put("latitude", "testLatitude");
         value.put("longitude", "testLongitude");
         value.put("speed", "testSpeed");

@@ -22,11 +22,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 "speed)";
 
         db.execSQL(logSQL);
+        /*
         db.execSQL("insert into log (title, speed) values ('test0','87883')");
         db.execSQL("insert into log (title, latitude, longitude, speed) values ('test1','123.444444','456.777777','1213')");
         db.execSQL("insert into log (title, latitude, longitude, speed) values ('test2','433.445544','296.777555','1227')");
         db.execSQL("insert into log (title, latitude, longitude, speed) values (?, ?, ?, ?)", new String[]{"test3","284.445544","983.777555","2223"});
 
+
+         */
     }
 
     @Override
