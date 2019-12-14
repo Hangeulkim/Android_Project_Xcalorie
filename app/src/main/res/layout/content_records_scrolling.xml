@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".RecordsScrollingActivity"
-    tools:showIn="@layout/activity_records_scrolling">
+    tools:showIn="@layout/activity_records_scrolling"
+    android:fillViewport="true">
 
-    <TextView
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        android:id="@+id/lv_database"/>
 
 </androidx.core.widget.NestedScrollView>
