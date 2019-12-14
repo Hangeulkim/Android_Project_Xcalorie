@@ -1,6 +1,5 @@
 package com.example.trust;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -46,18 +45,5 @@ public class RecordsScrollingActivity extends AppCompatActivity {
         //insertDB("상도동", "123.4444", "987.7777", "1762");
 
     }
-
-    public void insertDB(String title, String latitude, String longitude, String speed){
-        db = helper.getWritableDatabase();
-
-        ContentValues value = new ContentValues();
-        value.put("title", title);
-        value.put("latitude", latitude);
-        value.put("longitude", longitude);
-        value.put("speed", speed);
-
-        db.insert("log", null, value);
-    }
-
 
 }
