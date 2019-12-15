@@ -56,6 +56,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     //    private ArrayList<LatLng> arrayPoints;
     double p_lat, p_lng;
     private RouteInfo routeInfo;
+    private String speed;
 
     public void Now_location(View view) {
         if (routeInfo.arrayPoints.size() - 1 >= 0) {
@@ -108,7 +109,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Start_More.setVisibility(View.VISIBLE);
         Start_Start.setVisibility(View.INVISIBLE);
         Select_Start_Layout.setVisibility(View.VISIBLE);
-        Speed = findViewById(R.id.Speed_View);
+        Speed = findViewById(R.id.speed);
         //Speed.setVisibility(View.VISIBLE);
 
 
@@ -300,7 +301,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                             drawPath(location, p_latlng, (routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1)) + "m"));
                             Speed = findViewById(R.id.Speed_View);
-                            Speed.setText(((double) routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1)) + " m/s");
+                            Speed.setText( routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1) + " m/s");
 //                            gMap.clear();
 //
 //                            MarkerOptions mOptions = new MarkerOptions();
@@ -323,7 +324,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                     } else {
                         drawPath(location, p_latlng, (routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1)) + "m/s");
-                        Speed.setText((double) (routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1)) + " m/s");
+                        speed.valueOf(routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1));
+                        Speed.setText(speed.valueOf(routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1)) + " m/s");
 //                        gMap.clear();
 //
 //                        MarkerOptions mOptions = new MarkerOptions();
@@ -514,9 +516,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             });
 
             mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-                public void onMapLongClick(LatLng point) {
+                public void onMapLongClick (LatLng point){
                     mMap.clear();
                     routeInfo.clear();
+
                 }
             });
 
