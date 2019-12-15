@@ -54,7 +54,7 @@ public class RecordsScrollingActivity extends AppCompatActivity {
         public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
             cursor.moveToPosition(position);
             db = helper.getWritableDatabase();
-            db.delete("log", "title=?", new String[]{cursor.getString(1)}); // delete
+            db.delete("log", "_id=?", new String[]{cursor.getString(0)}); // delete
 
             db = helper.getReadableDatabase();
             cursor = db.query("log", null, null, null, null, null, null);

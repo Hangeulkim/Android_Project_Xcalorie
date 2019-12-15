@@ -2,8 +2,10 @@ package com.example.trust;
 
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +16,7 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -50,6 +53,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     ImageButton Start_Path;
     ImageButton End;
     ImageButton now_Location;
+
+    AlertDialog alertDialog;
+    AlertDialog pathSaveDialog;
+
+    DBHelper helper = null;
 
     private GoogleMap mMap;
     private GoogleMap gMap;
@@ -203,22 +211,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 ")");
 */
         routeInfo.moving = false;
-        DBHelper helper = new DBHelper(this);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        ContentValues value = new ContentValues();
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        ;
-        Date time = new Date();
-        String time1 = format.format(time);
+        ////
+        AlertDialog.Builder builder_ = new AlertDialog.Builder(this);
+        builder_.setIcon(android.R.drawable.ic_dialog_alert);
+        builder_.setTitle("알림");
+        builder_.setMessage("경로를 저장하시겠습니까?");
+        builder_.setPositiveButton("예", dialogListener);
+        builder_.setNegativeButton("아니오", null);
 
-        //이부분에 끝나고 저장할 것들 넣어주면 댑니다. 다 String 타입으로 통일했어요
-        value.put("title", time1);
-        value.put("latitude", "testLatitude");
-        value.put("longitude", "testLongitude");
-        value.put("speed", "testSpeed");
+        alertDialog = builder_.create();
+        alertDialog.show();
+        ////
 
-        db.insert("log", null, value);
         Start_First_Layout.setVisibility(View.VISIBLE);
         End.setVisibility(View.GONE);
         for (int i = 0; i < routeInfo.arrayLocations.size(); i++) {
@@ -226,6 +231,54 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if(dialog == alertDialog && which == DialogInterface.BUTTON_POSITIVE){
+                //새로 알람띄워서 입력받고 경로 저장.
+                setPathSaveDialog();
+            }
+        }
+    };
+
+    public void setPathSaveDialog(){
+        final EditText input = new EditText(this);
+
+        AlertDialog.Builder builder_ = new AlertDialog.Builder(this);
+        builder_.setIcon(android.R.drawable.ic_menu_directions);
+        builder_.setTitle("경로 이름 입력");
+        builder_.setView(input);
+
+        builder_.setPositiveButton("예", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SQLiteDatabase db = helper.getWritableDatabase();
+                ContentValues value = new ContentValues();
+
+                SimpleDateFormat format = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+                Date time = new Date();
+                String time1 = format.format(time);
+
+
+                //이부분에 끝나고 저장할 것들 넣어주면 댑니다. 다 String 타입으로 통일했어요
+                if(input.getText().toString().length() <= 0){
+                    value.put("title", time1); // 입력이 없으면 시간으로.
+                }
+                else{
+                    value.put("title", input.getText().toString()); // 입력이 있으면 그 입력으로 DB에 저장.
+                }
+                value.put("latitude", "testLatitude");
+                value.put("longitude", "testLongitude");
+                value.put("speed", "testSpeed");
+
+                db.insert("log", null, value);
+            }
+        });
+        builder_.setNegativeButton("아니오", null);
+
+        pathSaveDialog = builder_.create();
+        pathSaveDialog.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -250,7 +303,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 //        routeInfo = new RouteInfo();
 
-
+        helper = new DBHelper(this);
     }
 /*
     CalcDistance(시작 위치, 나중 위치)
