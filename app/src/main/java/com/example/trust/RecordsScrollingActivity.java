@@ -3,6 +3,7 @@ package com.example.trust;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
@@ -29,6 +30,7 @@ public class RecordsScrollingActivity extends AppCompatActivity {
 
         mLvDatabase = findViewById(R.id.lv_database);
         mLvDatabase.setOnItemLongClickListener(mLongClickListener);
+        mLvDatabase.setOnItemClickListener(mClickListener);
 
 
         helper = new DBHelper(this);
@@ -52,7 +54,7 @@ public class RecordsScrollingActivity extends AppCompatActivity {
         public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
             cursor.moveToPosition(position);
             db = helper.getWritableDatabase();
-            db.delete("log", "title=?", new String[]{cursor.getString(1)});
+            db.delete("log", "title=?", new String[]{cursor.getString(1)}); // delete
 
             db = helper.getReadableDatabase();
             cursor = db.query("log", null, null, null, null, null, null);
@@ -62,4 +64,14 @@ public class RecordsScrollingActivity extends AppCompatActivity {
         }
     };
 
+    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            cursor.moveToPosition(position);
+            Log.d("title : ", cursor.getString(1));
+            Log.d("latitude : ", cursor.getString(2));
+            Log.d("longitude : ", cursor.getString(3));
+            Log.d("speed : ", cursor.getString(4));
+        }
+    };
 }
