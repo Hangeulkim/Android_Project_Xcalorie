@@ -270,6 +270,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 value.put("latitude", "testLatitude");
                 value.put("longitude", "testLongitude");
                 value.put("speed", "testSpeed");
+                value.put("cal", "testCal");
 
                 db.insert("log", null, value);
             }

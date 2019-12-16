@@ -39,7 +39,7 @@ public class RecordsScrollingActivity extends AppCompatActivity {
         cursorAdapter = new SimpleCursorAdapter(this,
                 android.R.layout.simple_list_item_activated_2,
                 cursor,
-                new String[]{"title", "speed"},
+                new String[]{"title", "cal"},
                 new int[]{android.R.id.text1, android.R.id.text2},
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         cursorAdapter.notifyDataSetChanged();
@@ -72,6 +72,7 @@ public class RecordsScrollingActivity extends AppCompatActivity {
             Log.d("latitude : ", cursor.getString(2));
             Log.d("longitude : ", cursor.getString(3));
             Log.d("speed : ", cursor.getString(4));
+            Log.d("cal", cursor.getString(5));
         }
     };
 }
