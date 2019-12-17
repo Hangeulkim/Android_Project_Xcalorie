@@ -264,25 +264,34 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                 //이부분에 끝나고 저장할 것들 넣어주면 댑니다. 다 String 타입으로 통일했어요
                 if(input.getText().toString().length() <= 0){
-                    value.put("title", time1); // 입력이 없으면 시간으로.
+                    routeInfo.name = time1;//입력이 없으면 시간으로
                 }
                 else{
-                    value.put("title", input.getText().toString()); // 입력이 있으면 그 입력으로 DB에 저장.
+                    routeInfo.name = input.getText().toString();// 입력이 있으면 그 입력으로 DB에 저장.
                 }
                 String tmpSpeed="";
                 for(int i=0; i<routeInfo.arraySpeeds.size();i++){
-                    tmpSpeed=tmpSpeed.concat(routeInfo.arraySpeeds.get(i).toString()+"/");
+                    tmpSpeed = tmpSpeed.concat(Double.toString(routeInfo.arraySpeeds.get(i).doubleValue()));
+                    //tmpSpeed=tmpSpeed.concat(routeInfo.arraySpeeds.get(i).toString()+"/");
+                    if(i<routeInfo.arraySpeeds.size()-1){
+                        tmpSpeed = tmpSpeed.concat("/");
+                    }
                 }
                 String tmpLat="";
                 String tmpLong="";
                 for(int i=0;i<routeInfo.arrayPoints.size();i++){
                     tmpLat=tmpLat.concat(Double.toString(routeInfo.arrayPoints.get(i).latitude));
                     tmpLong=tmpLong.concat(Double.toString(routeInfo.arrayPoints.get(i).longitude));
+                    if(i<routeInfo.arrayPoints.size()-1){
+                        tmpLat = tmpLat.concat("/");
+                        tmpLong = tmpLong.concat("/");
+                    }
                 }
+                value.put("title", routeInfo.name);
                 value.put("speed",tmpSpeed);
                 value.put("latitude",tmpLat);
                 value.put("longitude",tmpLong);
-                value.put("cal", "testCal");
+                value.put("cal", routeInfo.cal + "cal");
 
                 db.insert("log", null, value);
             }
