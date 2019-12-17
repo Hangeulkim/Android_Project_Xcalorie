@@ -267,9 +267,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 else{
                     value.put("title", input.getText().toString()); // 입력이 있으면 그 입력으로 DB에 저장.
                 }
-                value.put("latitude", "testLatitude");
-                value.put("longitude", "testLongitude");
-                value.put("speed", "testSpeed");
+                String tmpSpeed="";
+                for(int i=0; i<routeInfo.arraySpeeds.size();i++){
+                    tmpSpeed=tmpSpeed.concat(routeInfo.arraySpeeds.get(i).toString()+"/");
+                }
+                String tmpLat="";
+                String tmpLong="";
+                for(int i=0;i<routeInfo.arrayPoints.size();i++){
+                    tmpLat=tmpLat.concat(Double.toString(routeInfo.arrayPoints.get(i).latitude));
+                    tmpLong=tmpLong.concat(Double.toString(routeInfo.arrayPoints.get(i).longitude));
+                }
+                value.put("speed",tmpSpeed);
+                value.put("latitude",tmpLat);
+                value.put("longitude",tmpLong);
                 value.put("cal", "testCal");
 
                 db.insert("log", null, value);

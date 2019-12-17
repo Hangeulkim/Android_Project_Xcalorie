@@ -11,6 +11,7 @@ public class RouteInfo {
     public ArrayList<Double> arraySpeeds;
     public ArrayList<LatLng> arrayVector;
     public ArrayList<Location> arrayLocations;
+    public double cal;
     public boolean degree_b = true;
     public int select_menu = 0;     //타이머 = 1, 빠시 = 2, 경로지정 = 3;
     public boolean moving = false;  //움직이면 true, 끝나면 false;
