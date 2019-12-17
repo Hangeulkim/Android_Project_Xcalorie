@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -73,6 +74,11 @@ public class RecordsScrollingActivity extends AppCompatActivity {
             Log.d("longitude : ", cursor.getString(3));
             Log.d("speed : ", cursor.getString(4));
             Log.d("cal", cursor.getString(5));
+            Toast.makeText(getApplicationContext(), "title :"+cursor.getString(1), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "lati :"+cursor.getString(2), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "longi :"+cursor.getString(3), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "speed :"+cursor.getString(4), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "cal :"+cursor.getString(5), Toast.LENGTH_SHORT).show();
         }
     };
 }
