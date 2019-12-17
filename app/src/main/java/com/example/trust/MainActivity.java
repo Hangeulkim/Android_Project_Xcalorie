@@ -226,9 +226,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         Start_First_Layout.setVisibility(View.VISIBLE);
         End.setVisibility(View.GONE);
-        for (int i = 0; i < routeInfo.arrayLocations.size(); i++) {
-            routeInfo.remove(i);
-        }
+        routeInfo.clear();
     }
 
     DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
