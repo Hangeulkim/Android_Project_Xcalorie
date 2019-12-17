@@ -3,6 +3,7 @@ package com.example.trust;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import android.location.Location;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class RouteInfo {
     public String name = "name";
@@ -11,10 +12,11 @@ public class RouteInfo {
     public ArrayList<Double> arraySpeeds;
     public ArrayList<LatLng> arrayVector;
     public ArrayList<Location> arrayLocations;
+    public ArrayList<MarkerOptions> arraymarkerPoints;
     public double cal;
     public boolean degree_b = true;
     public int select_menu = 0;     //타이머 = 1, 빠시 = 2, 경로지정 = 3;
-    public boolean moving = false;  //움직이면 true, 끝나면 false;
+    public boolean moving = false;  //시작하면 true, 종료하면 false;
 
 
     public RouteInfo(String name){
@@ -23,6 +25,7 @@ public class RouteInfo {
         arraySpeeds = new ArrayList<Double>();
         arrayLocations = new ArrayList<Location>();
         arrayVector = new ArrayList<LatLng>();
+        arraymarkerPoints = new ArrayList<MarkerOptions>();
     }
 
     public RouteInfo(){
@@ -30,6 +33,7 @@ public class RouteInfo {
         arraySpeeds = new ArrayList<Double>();
         arrayLocations = new ArrayList<Location>();
         arrayVector = new ArrayList<LatLng>();
+        arraymarkerPoints = new ArrayList<MarkerOptions>();
     }
 
     public void set_selectMenu(int i){
@@ -79,6 +83,9 @@ public class RouteInfo {
         arraySpeeds.remove(index);
         arrayLocations.remove(index);
         arrayVector.remove(index);
+        arraymarkerPoints.remove(index);
+        cal = 0;
+        select_menu = 0;
     }
 
     public void clear(){
@@ -93,6 +100,10 @@ public class RouteInfo {
         arrayPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
         arraySpeeds.add(getSpeed());
         arrayVector.add(getVector());
+    }
+
+    public void addMarkerPoint(MarkerOptions markeroptions){
+        arraymarkerPoints.add(markeroptions);
     }
 
 }
