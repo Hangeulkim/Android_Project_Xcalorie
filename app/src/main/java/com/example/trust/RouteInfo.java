@@ -83,9 +83,10 @@ public class RouteInfo {
         arraySpeeds.remove(index);
         arrayLocations.remove(index);
         arrayVector.remove(index);
+    }
+
+    public void markerRemove(int index){
         arraymarkerPoints.remove(index);
-        cal = 0;
-        select_menu = 0;
     }
 
     public void clear(){
