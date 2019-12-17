@@ -14,9 +14,10 @@ public class RouteInfo {
     public ArrayList<Location> arrayLocations;
     public ArrayList<MarkerOptions> arraymarkerPoints;
     public double cal;
+    public int weight;
     public boolean degree_b = true;
     public int select_menu = 0;     //타이머 = 1, 빠시 = 2, 경로지정 = 3;
-    public boolean moving = false;  //시작하면 true, 종료하면 false;
+//    public boolean moving = false;  //시작하면 true, 종료하면 false;
 
 
     public RouteInfo(String name){
@@ -38,6 +39,10 @@ public class RouteInfo {
 
     public void set_selectMenu(int i){
         select_menu = i;
+    }
+
+    public void getCal(int weight, double time){
+
     }
 
     public double getSpeed(){

@@ -49,6 +49,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     ImageButton Start_Start;
     TextView Speed;
     int count = 0;
+    boolean moving = false;
 
     ImageButton Start_Fast;
     ImageButton Start_Timer;
@@ -143,18 +144,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Click_Start_Timer(View view) {
+        moving = true;
         gMap.clear();
         now_Location.setVisibility(View.VISIBLE);
         Start_First_Layout.setVisibility(View.GONE);
         End.setVisibility(View.VISIBLE);
         routeInfo.set_selectMenu(1);
-        routeInfo.moving = true;
+//        routeInfo.moving = true;
 
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         } else {
-            if (routeInfo.moving == true) {
+            if (moving == true) {
                 final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
@@ -163,18 +165,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Click_Start_Select(View view) {
+        moving = true;
         gMap.clear();
         now_Location.setVisibility(View.VISIBLE);
         Start_First_Layout.setVisibility(View.GONE);
         End.setVisibility(View.VISIBLE);
         routeInfo.set_selectMenu(3);
-        routeInfo.moving = true;
+//        routeInfo.moving = true;
 
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         } else {
-            if (routeInfo.moving == true) {
+            if (moving == true) {
                 final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
@@ -183,18 +186,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Click_Start_Fast(View view) {
+        moving = true;
         gMap.clear();
         now_Location.setVisibility(View.VISIBLE);
         Start_First_Layout.setVisibility(View.GONE);
         End.setVisibility(View.VISIBLE);
         routeInfo.set_selectMenu(2);
-        routeInfo.moving = true;
+//        routeInfo.moving = true;
 
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         } else {
-            if (routeInfo.moving == true) {
+            if (moving == true) {
                 final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, gpsLocationListener);
                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
@@ -213,7 +217,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 "double speed"+
                 ")");
 */
-        routeInfo.moving = false;
+        moving = false;
         gMap.clear();
 
         ////
@@ -352,54 +356,55 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     final LocationListener gpsLocationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
-            // String provider = location.getProvider();
-            p_lng = location.getLongitude();
-            p_lat = location.getLatitude();
-            Double latitude = p_lat;
-            Double longitude = p_lng;
-            LatLng p_latlng = new LatLng(p_lat, p_lng);
+            if(moving == true) {
+                // String provider = location.getProvider();
+                p_lng = location.getLongitude();
+                p_lat = location.getLatitude();
+                Double latitude = p_lat;
+                Double longitude = p_lng;
+                LatLng p_latlng = new LatLng(p_lat, p_lng);
 
 
-            if (routeInfo.arrayLocations.size() >= 1) {
-                routeInfo.addWayPoint(location);
-                if(routeInfo.arrayPoints.size()>=1 && routeInfo.arraymarkerPoints.size()-1>=count) {
-                    Marker p_marker = mMap.addMarker(routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size()-1));
+                if (routeInfo.arrayLocations.size() >= 1) {
+                    routeInfo.addWayPoint(location);
+                    if (routeInfo.arrayPoints.size() >= 1 && routeInfo.arraymarkerPoints.size() - 1 >= count) {
+                        Marker p_marker = mMap.addMarker(routeInfo.arraymarkerPoints.get(count));
 //                    for(int i=0; i<routeInfo.arraymarkerPoints.size()-1; i++) {
 //                        Marker marker = mMap.addMarker(routeInfo.arraymarkerPoints.get(i));
 //                    }
-                    LatLng point = p_marker.getPosition();
-                    if(routeInfo.arrayPoints.size()>=1){
-                        routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size()-1).snippet(String.valueOf(CalcDistance(point, routeInfo.arrayPoints.get(routeInfo.arrayPoints.size() - 1))));
-                    }else{
-                        routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size()-1).snippet(latitude.toString() + "," + longitude.toString());
-                    }
-                    if (CalcDistance(point, routeInfo.arrayPoints.get(count)) <= 0.01) {
-                        Speed.setText("도착!");
-                        if(routeInfo.arraymarkerPoints.size()-1>=count) {
-                            count++;
+                        LatLng point = p_marker.getPosition();
+                        if (routeInfo.arrayPoints.size() >= 1) {
+                            routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size() - 1).snippet(String.valueOf(CalcDistance(point, routeInfo.arrayPoints.get(routeInfo.arrayPoints.size() - 1))));
+                        } else {
+                            routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size() - 1).snippet(latitude.toString() + "," + longitude.toString());
+                        }
+                        if (CalcDistance(point, routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-1)) <= 0.01) {
+                            Speed.setText("도착!");
+                            if (routeInfo.arraymarkerPoints.size() - 1 >= count) {
+                                count++;
+                            }
+                        } else {
+                            Speed.setText("가는중!");
                         }
                     } else {
-                        Speed.setText("가는중!");
+                        Speed.setText("위치 미정");
                     }
-                }else{
-                    Speed.setText("위치 미정");
-                }
 //                arrayPoints.add(p_latlng);
 //              LatLng s_latlng = arrayPoints.get(arrayPoints.size()-2);
 //              LatLng l_latlng = arrayPoints.get(arrayPoints.size()-1);
 //                LatLng s_latlng = routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-2);
 //                LatLng l_latlng = routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-1);
 
-                if (routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1)) < 10) {
-                    if (routeInfo.vectorArrow(routeInfo.arrayVector.get(routeInfo.arrayVector.size() - 2), routeInfo.arrayVector.get(routeInfo.arrayVector.size() - 1)) <= (1 / Math.sqrt(2.0))) {
-                        if (routeInfo.degree_b == true) {
-                            routeInfo.degree_b = false;
-                        } else {
-                            routeInfo.remove(routeInfo.arrayLocations.size() - 2);
-                            routeInfo.degree_b = true;
+                    if (routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1)) < 10) {
+                        if (routeInfo.vectorArrow(routeInfo.arrayVector.get(routeInfo.arrayVector.size() - 2), routeInfo.arrayVector.get(routeInfo.arrayVector.size() - 1)) <= (1 / Math.sqrt(2.0))) {
+                            if (routeInfo.degree_b == true) {
+                                routeInfo.degree_b = false;
+                            } else {
+                                routeInfo.remove(routeInfo.arrayLocations.size() - 2);
+                                routeInfo.degree_b = true;
 
-                            drawPath(location, p_latlng, (routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1)) + "m"));
-                            Speed = findViewById(R.id.Speed_View);
+                                drawPath(location, p_latlng, (routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1)) + "m"));
+                                Speed = findViewById(R.id.Speed_View);
 //                            Speed.setText( routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1) + " m/s");
 //                            gMap.clear();
 //
@@ -419,11 +424,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //                            polylineOptions.width(5);
 //                            polylineOptions.addAll(routeInfo.arrayPoints);
 //                            gMap.addPolyline(polylineOptions);
-                        }
+                            }
 
-                    } else {
-                        drawPath(location, p_latlng, (routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1)) + "m/s");
-                        String.valueOf(routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1));
+                        } else {
+                            drawPath(location, p_latlng, (routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1)) + "m/s");
+                            String.valueOf(routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1));
 //                        String.setText(speed.valueOf(routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1)) + " m/s");
 //                        gMap.clear();
 //
@@ -443,14 +448,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //                        polylineOptions.width(5);
 //                        polylineOptions.addAll(routeInfo.arrayPoints);
 //                        gMap.addPolyline(polylineOptions);
+                        }
+                    } else {
+                        routeInfo.remove(routeInfo.arrayLocations.size() - 1);
                     }
-                } else {
-                    routeInfo.remove(routeInfo.arrayLocations.size() - 1);
-                }
 
-            } else {
-                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 20));
-                drawPath(location, p_latlng, latitude.toString() + "," + longitude.toString());
+                } else {
+                    gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 20));
+                    drawPath(location, p_latlng, latitude.toString() + "," + longitude.toString());
 //                Speed.setText("0 m/s");
 //                gMap.clear();
 //
@@ -473,11 +478,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //                polylineOptions.width(5);
 //                polylineOptions.addAll(routeInfo.arrayPoints);
 //                gMap.addPolyline(polylineOptions);
+                }
+
+
+                // Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(p_lat, p_lng)).radius(3).strokeColor(Color.RED).fillColor(Color.BLUE));
             }
-
-
-            // Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(p_lat, p_lng)).radius(3).strokeColor(Color.RED).fillColor(Color.BLUE));
-
         }
 
         public void onStatusChanged(String provider, int status, Bundle extras) {
