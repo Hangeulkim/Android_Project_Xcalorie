@@ -469,6 +469,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         gMap.clear();
 
         MarkerOptions mOptions = new MarkerOptions();
+        MarkerOptions pOptions = new MarkerOptions();
         mOptions.title("마커 좌표");
 
 
@@ -478,7 +479,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 20));
         gMap.addMarker(mOptions);
         if(routeInfo.arraymarkerPoints.size()>=1) {
-            MarkerOptions pOptions = routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size() - 1);
+            pOptions = routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size() - 1);
             gMap.addMarker(pOptions);
         }
 
@@ -518,15 +519,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                             Double latitude = point.latitude;
                             Double longitude = point.longitude;
 
+                            mOptions.position(new LatLng(latitude, longitude));
+                            mMap.addMarker(mOptions);
+                            routeInfo.addMarkerPoint(mOptions);
 
                             if(routeInfo.arrayPoints.size()>=1){
                                 mOptions.snippet(String.valueOf(CalcDistance(point, routeInfo.arrayPoints.get(routeInfo.arrayPoints.size() - 1))));
                             }else{
                                 mOptions.snippet(latitude.toString() + "," + longitude.toString());
                             }
-                            mOptions.position(new LatLng(latitude, longitude));
-                            mMap.addMarker(mOptions);
-                            routeInfo.addMarkerPoint(mOptions);
+
 
 
                             if(routeInfo.arrayPoints.size()>=1) {
