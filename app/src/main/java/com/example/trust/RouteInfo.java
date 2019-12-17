@@ -94,6 +94,7 @@ public class RouteInfo {
         arraySpeeds.clear();
         arrayLocations.clear();
         arrayVector.clear();
+        arraymarkerPoints.clear();
     }
 
     public void addWayPoint(Location location){

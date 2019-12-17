@@ -49,6 +49,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     ImageButton Start_More;
     ImageButton Start_Start;
     TextView Speed;
+    int count = 0;
 
     ImageButton Start_Fast;
     ImageButton Start_Timer;
@@ -120,6 +121,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Start_Start.setVisibility(View.INVISIBLE);
         Select_Start_Layout.setVisibility(View.VISIBLE);
         Speed = findViewById(R.id.speed);
+        Speed.setText("시작!");
         //Speed.setVisibility(View.VISIBLE);
 
 
@@ -213,6 +215,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 ")");
 */
         routeInfo.moving = false;
+        gMap.clear();
 
         ////
         AlertDialog.Builder builder_ = new AlertDialog.Builder(this);
@@ -229,6 +232,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Start_First_Layout.setVisibility(View.VISIBLE);
         End.setVisibility(View.GONE);
         routeInfo.clear();
+        Speed.setText("끝!");
     }
 
     DialogInterface.OnClickListener dialogListener = new DialogInterface.OnClickListener() {
@@ -321,14 +325,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-//        routeInfo = new RouteInfo();
+
 
         helper = new DBHelper(this);
     }
+
 /*
     CalcDistance(시작 위치, 나중 위치)
         return Km;
-
  */
     public double CalcDistance(LatLng s_latlng, LatLng l_latlng){
         double dDistance = 0;
@@ -359,6 +363,28 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
             if (routeInfo.arrayLocations.size() >= 1) {
                 routeInfo.addWayPoint(location);
+                if(routeInfo.arrayPoints.size()>=1 && routeInfo.arraymarkerPoints.size()-1>=count) {
+                    Marker p_marker = mMap.addMarker(routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size()-1));
+//                    for(int i=0; i<routeInfo.arraymarkerPoints.size()-1; i++) {
+//                        Marker marker = mMap.addMarker(routeInfo.arraymarkerPoints.get(i));
+//                    }
+                    LatLng point = p_marker.getPosition();
+                    if(routeInfo.arrayPoints.size()>=1){
+                        routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size()-1).snippet(String.valueOf(CalcDistance(point, routeInfo.arrayPoints.get(routeInfo.arrayPoints.size() - 1))));
+                    }else{
+                        routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size()-1).snippet(latitude.toString() + "," + longitude.toString());
+                    }
+                    if (CalcDistance(point, routeInfo.arrayPoints.get(count)) <= 0.01) {
+                        Speed.setText("도착!");
+                        if(routeInfo.arraymarkerPoints.size()-1>=count) {
+                            count++;
+                        }
+                    } else {
+                        Speed.setText("가는중!");
+                    }
+                }else{
+                    Speed.setText("위치 미정");
+                }
 //                arrayPoints.add(p_latlng);
 //              LatLng s_latlng = arrayPoints.get(arrayPoints.size()-2);
 //              LatLng l_latlng = arrayPoints.get(arrayPoints.size()-1);
@@ -486,9 +512,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 20));
         gMap.addMarker(mOptions);
         if(routeInfo.arraymarkerPoints.size()>=1) {
-            pOptions = routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size() - 1);
-            gMap.addMarker(pOptions);
+//            pOptions = routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size() - 1);
+//            gMap.addMarker(pOptions);
+            for(int i=count; i<=routeInfo.arraymarkerPoints.size()-1; i++) {
+                mMap.addMarker(routeInfo.arraymarkerPoints.get(i));
+            }
         }
+
 
 //                arrayPoints.add(p_latlng);
         routeInfo.addWayPoint(location);
@@ -528,6 +558,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                             mOptions.position(new LatLng(latitude, longitude));
                             mMap.addMarker(mOptions);
+                            for(int i=0; i<routeInfo.arraymarkerPoints.size()-1; i++) {
+                                mMap.addMarker(routeInfo.arraymarkerPoints.get(i));
+                            }
                             routeInfo.addMarkerPoint(mOptions);
 
                             if(routeInfo.arrayPoints.size()>=1){
@@ -539,13 +572,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                             if(routeInfo.arrayPoints.size()>=1) {
-                                if (CalcDistance(point, routeInfo.arrayPoints.get(routeInfo.arrayPoints.size() - 1)) <= 0.005) {
+                                if (CalcDistance(point, routeInfo.arrayPoints.get(0)) <= 0.005) {
                                     Speed.setText("도착!");
                                 } else {
                                     Speed.setText("가는중!");
                                 }
                             }else{
-                                Speed.setText("경로 아직 미정");
+                                Speed.setText("위치 미정");
                             }
 
 
