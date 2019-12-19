@@ -160,16 +160,6 @@
             android:orientation="horizontal"
             android:layout_marginBottom="15dp">
 
-            <TextView
-                android:id="@+id/Speed_View"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:text = "현재 속도"
-                android:textSize="50sp"
-                android:textColor="#FFFFFF"
-                />
 
             <ImageButton
                 android:id="@+id/Start_Timer"

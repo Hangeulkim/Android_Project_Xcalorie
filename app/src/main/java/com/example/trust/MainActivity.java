@@ -158,6 +158,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //
 //        }
         routeInfo = new RouteInfo();
+        routeInfo.weight = 65;
         routeInfo.prefs=this.prefs;
         routeInfo.HowToEx=this.HowToEx;
         Start_Start.setVisibility(View.GONE);
@@ -279,6 +280,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Start_First_Layout.setVisibility(View.VISIBLE);
         End.setVisibility(View.GONE);
         Timer.setVisibility(View.GONE);
+
         routeInfo.clear();
         Speed.setText("끝!");
     }
@@ -419,7 +421,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 LatLng p_latlng = new LatLng(p_lat, p_lng);
 
 
-                if (routeInfo.arrayLocations.size() >= 1) {
+ //               if (routeInfo.arrayLocations.size() >= 0) {
                     routeInfo.addWayPoint(location);
                     if (routeInfo.arrayPoints.size() >= 1 && routeInfo.arraymarkerPoints.size() - 1 >= count) {
                         Marker p_marker = mMap.addMarker(routeInfo.arraymarkerPoints.get(count));
@@ -432,7 +434,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         } else {
                             routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size() - 1).snippet(latitude.toString() + "," + longitude.toString());
                         }
-                        if (CalcDistance(point, routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-1)) <= 0.005) {
+                        if (CalcDistance(point, routeInfo.arrayPoints.get(routeInfo.arrayPoints.size() - 1)) <= 0.005) {
                             Speed.setText("도착!");
                             if (routeInfo.arraymarkerPoints.size() - 1 >= count) {
                                 count++;
@@ -441,24 +443,33 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                             Speed.setText("가는중!");
                         }
                     } else {
-                        Speed.setText("위치 미정");
+                        Speed.setText("경로 미정");
                     }
 //                arrayPoints.add(p_latlng);
 //              LatLng s_latlng = arrayPoints.get(arrayPoints.size()-2);
 //              LatLng l_latlng = arrayPoints.get(arrayPoints.size()-1);
 //                LatLng s_latlng = routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-2);
 //                LatLng l_latlng = routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-1);
+                    if (routeInfo.arrayLocations.size() >= 2) {
+                        if (routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1)) < 10) {
+                            if (routeInfo.arrayLocations.size() >= 3) {
+                                if (routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 3).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2))
+                                        > routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 3).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1))) {
+                                    routeInfo.remove(routeInfo.arrayLocations.size() - 2);
+                                    String.valueOf(routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1));
 
-                    if (routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1)) < 10) {
-                        if (routeInfo.vectorArrow(routeInfo.arrayVector.get(routeInfo.arrayVector.size() - 2), routeInfo.arrayVector.get(routeInfo.arrayVector.size() - 1)) <= (1 / Math.sqrt(2.0))) {
-                            if (routeInfo.degree_b == true) {
-                                routeInfo.degree_b = false;
-                            } else {
-                                routeInfo.remove(routeInfo.arrayLocations.size() - 2);
-                                routeInfo.degree_b = true;
+                                }
+                            }
+                            if (routeInfo.vectorArrow(routeInfo.arrayVector.get(routeInfo.arrayVector.size() - 2), routeInfo.arrayVector.get(routeInfo.arrayVector.size() - 1))
+                                    <= (1 / Math.sqrt(2.0))) {
+                                if (routeInfo.degree_b == true) {
+                                    routeInfo.degree_b = false;
+                                } else {
+                                    routeInfo.remove(routeInfo.arrayLocations.size() - 2);
+                                    routeInfo.degree_b = true;
 
-                                drawPath(location, p_latlng, (routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1)) + "m"));
-                                Speed = findViewById(R.id.Speed_View);
+                                    drawPath(location, p_latlng, (routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1)) + "m"));
+
 //                            Speed.setText( routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1) + " m/s");
 //                            gMap.clear();
 //
@@ -478,38 +489,21 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //                            polylineOptions.width(5);
 //                            polylineOptions.addAll(routeInfo.arrayPoints);
 //                            gMap.addPolyline(polylineOptions);
+                                }
+                                //routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1)) + "m/s"
+                            } else {
+                                routeInfo.cal = routeInfo.getCal(routeInfo.get_totaltime());
+                                drawPath(location, p_latlng, String.valueOf(routeInfo.cal) + "cal");
+                                String.valueOf(routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1));
+
                             }
-
                         } else {
-                            drawPath(location, p_latlng, (routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1)) + "m/s");
-                            String.valueOf(routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1));
-//                        String.setText(speed.valueOf(routeInfo.arraySpeeds.get(routeInfo.arraySpeeds.size() - 1)) + " m/s");
-//                        gMap.clear();
-//
-//                        MarkerOptions mOptions = new MarkerOptions();
-//                        mOptions.title("마커 좌표");
-//
-//
-//                        mOptions.snippet(String.valueOf(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 2).distanceTo(routeInfo.arrayLocations.get(routeInfo.arrayLocations.size() - 1))));
-//                        mOptions.position(p_latlng);
-//
-//                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 18));
-//                        gMap.addMarker(mOptions);
-//
-//
-//                        PolylineOptions polylineOptions = new PolylineOptions();
-//                        polylineOptions.color(Color.RED);
-//                        polylineOptions.width(5);
-//                        polylineOptions.addAll(routeInfo.arrayPoints);
-//                        gMap.addPolyline(polylineOptions);
+                            routeInfo.remove(routeInfo.arrayLocations.size() - 1);
                         }
-                    } else {
-                        routeInfo.remove(routeInfo.arrayLocations.size() - 1);
-                    }
 
-                } else {
-                    gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 20));
-                    drawPath(location, p_latlng, latitude.toString() + "," + longitude.toString());
+                    } else {
+                        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(p_latlng, 20));
+                        drawPath(location, p_latlng, latitude.toString() + "," + longitude.toString());
 //                Speed.setText("0 m/s");
 //                gMap.clear();
 //
@@ -532,11 +526,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //                polylineOptions.width(5);
 //                polylineOptions.addAll(routeInfo.arrayPoints);
 //                gMap.addPolyline(polylineOptions);
+                    }
                 }
 
-
                 // Circle circle = mMap.addCircle(new CircleOptions().center(new LatLng(p_lat, p_lng)).radius(3).strokeColor(Color.RED).fillColor(Color.BLUE));
-            }
+ //           }
         }
 
         public void onStatusChanged(String provider, int status, Bundle extras) {

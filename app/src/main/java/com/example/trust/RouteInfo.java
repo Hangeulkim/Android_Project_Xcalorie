@@ -19,7 +19,7 @@ public class RouteInfo{
     public ArrayList<Location> arrayLocations;
     public ArrayList<MarkerOptions> arraymarkerPoints;
     public double cal;
-    public double weight;
+    public double weight = 65;
     public boolean degree_b = true;
     public int select_menu = 0;     //타이머 = 1, 빠시 = 2, 경로지정 = 3;
     public SharedPreferences prefs;
@@ -58,16 +58,26 @@ public class RouteInfo{
         select_menu = i;
     }
 
-    public void getCal(double time){
+    public double getCal(double t_time){
         if(HowToEx.equals("걷기")){
-            cal = weight*3.5*2.3*time/1000;
+            return weight*3.5*2.3*t_time/1000;
         }
         else if(HowToEx.equals("뛰기")){
-            cal = weight*3.5*3.6*time/1000;
+            return weight*3.5*3.6*t_time/1000;
         }
         else{
-            cal = weight*3.5*8.0*time/1000;
+            return weight*3.5*8.0*t_time/1000;
         }
+    }
+
+    public double get_totaltime(){
+        double t_time = 0;
+
+
+        for(int i=1; arrayLocations.size() - i >= 1; i++){
+            t_time += (arrayLocations.get(arrayLocations.size()-i).getTime() - arrayLocations.get(arrayLocations.size()-(i+1)).getTime()) / 1000;
+        }
+        return t_time;
     }
 
     public double getSpeed(){
