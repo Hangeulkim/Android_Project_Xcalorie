@@ -3,8 +3,11 @@ package com.example.trust;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.location.Location;
+import android.preference.PreferenceManager;
+
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class RouteInfo{
@@ -19,12 +22,21 @@ public class RouteInfo{
     public double weight;
     public boolean degree_b = true;
     public int select_menu = 0;     //타이머 = 1, 빠시 = 2, 경로지정 = 3;
-    SharedPreferences prefs;
+    public SharedPreferences prefs;
     public String HowToEx="걷기";
     //public String HowToEx = prefs.getString("howtoex","걷기");
 //    public boolean moving = false;  //시작하면 true, 종료하면 false;
 
-
+    public RouteInfo(String name, Context context){
+        this.name = name;
+        arrayPoints = new ArrayList<LatLng>();
+        arraySpeeds = new ArrayList<Double>();
+        arrayLocations = new ArrayList<Location>();
+        arrayVector = new ArrayList<LatLng>();
+        arraymarkerPoints = new ArrayList<MarkerOptions>();
+        prefs= PreferenceManager.getDefaultSharedPreferences(context);
+        HowToEx = prefs.getString("howtoex","걷기");
+    }
     public RouteInfo(String name){
         this.name = name;
         arrayPoints = new ArrayList<LatLng>();

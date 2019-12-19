@@ -16,6 +16,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -72,9 +73,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private RouteInfo routeInfo;
 
 
-    //String HowToEx = prefs.getString("exercise","걷기");
-   // Boolean Vibe = prefs.getBoolean("Vibrate",true);
-    //Boolean Sound = prefs.getBoolean("Sound",true);
+    String HowToEx;
+    Boolean Vibe;
+    Boolean Sound;
 
 
     public void Now_location(View view) {
@@ -146,6 +147,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //
 //        }
         routeInfo = new RouteInfo();
+        routeInfo.prefs=this.prefs;
+        routeInfo.HowToEx=this.HowToEx;
         Start_Start.setVisibility(View.GONE);
         Select_Start_Layout.setVisibility(View.VISIBLE);
 
@@ -337,7 +340,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        prefs=getSharedPreferences("setting",MODE_PRIVATE);
+        prefs= PreferenceManager.getDefaultSharedPreferences(this);
+
+        HowToEx = prefs.getString("exercise","걷기");
+        Vibe = prefs.getBoolean("Vibrate",true);
+        Sound = prefs.getBoolean("Sound",true);
 
 
         helper = new DBHelper(this);
