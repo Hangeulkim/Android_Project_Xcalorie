@@ -73,7 +73,7 @@ public class RecordsScrollingActivity extends AppCompatActivity {
 
             Intent intent = new Intent(getApplicationContext(),Log_Show.class);
             intent.putExtra("latitude",cursor.getString(2));
-            intent.putExtra("longtitude",cursor.getString(3));
+            intent.putExtra("longitude",cursor.getString(3));
             intent.putExtra("speed",cursor.getString(4));
 
             startActivity(intent);

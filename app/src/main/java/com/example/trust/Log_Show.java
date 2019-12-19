@@ -21,6 +21,7 @@ public class Log_Show extends FragmentActivity implements OnMapReadyCallback{
     //    private ArrayList<LatLng> arrayPoints;
     double p_lat, p_lng;
     private RouteInfo log_info;
+    private String[] Long;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +31,14 @@ public class Log_Show extends FragmentActivity implements OnMapReadyCallback{
         log_info = new RouteInfo();
 
         Intent intent = getIntent();
-        String[] tmpSpeed=intent.getExtras().getString("speed").split("/");
+//        String[] tmpSpeed=intent.getExtras().getString("speed").split("/");
         String[] tmpLong=intent.getExtras().getString("longitude").split("/");
         String[] tmpLat=intent.getExtras().getString("latitude").split("/");
-        for(String speed : tmpSpeed){
-            log_info.arraySpeeds.add(Double.parseDouble(speed));
-        }
-        for(int i=0;i<tmpLong.length;i++){
+//        for(String speed : tmpSpeed){
+//            log_info.arraySpeeds.add(Double.parseDouble(speed));
+//        }
+//        Long[0] = tmpLong[0];
+        for(int i=0;i<=tmpLong.length;i++){
             log_info.arrayPoints.add(new LatLng(Double.parseDouble(tmpLat[i]),Double.parseDouble(tmpLong[i])));
         }
     }
@@ -103,11 +105,19 @@ public class Log_Show extends FragmentActivity implements OnMapReadyCallback{
         });
 
 
+
+
+        MarkerOptions markerOptions = new MarkerOptions();
         // Add a marker in start and move the camera
         LatLng start = new LatLng(37.5193, 126.9778);
+        markerOptions.position(start);
+        markerOptions.snippet(Long[0]);
+//        mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(start));
 
+
         drawPath(p_latlng);
+
 
     }
 }
