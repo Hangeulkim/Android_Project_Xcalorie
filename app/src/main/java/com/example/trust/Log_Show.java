@@ -43,24 +43,7 @@ public class Log_Show extends FragmentActivity implements OnMapReadyCallback{
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
-                try {
-                    if (log_info.select_menu == 3) {
-                        MarkerOptions mOptions = new MarkerOptions();
-                        mOptions.title("마커 좌표");
-                        Double latitude = point.latitude;
-                        Double longitude = point.longitude;
 
-                        mOptions.position(new LatLng(latitude, longitude));
-                        mMap.addMarker(mOptions);
-                        for(int i=0; i<log_info.arraymarkerPoints.size()-1; i++) {
-                            mMap.addMarker(log_info.arraymarkerPoints.get(i));
-                        }
-                        log_info.addMarkerPoint(mOptions);
-
-                    }
-                }catch(NullPointerException e){
-
-                }
             }
 
         });

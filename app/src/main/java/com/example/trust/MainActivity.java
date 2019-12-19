@@ -395,7 +395,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                         } else {
                             routeInfo.arraymarkerPoints.get(routeInfo.arraymarkerPoints.size() - 1).snippet(latitude.toString() + "," + longitude.toString());
                         }
-                        if (CalcDistance(point, routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-1)) <= 0.01) {
+                        if (CalcDistance(point, routeInfo.arrayPoints.get(routeInfo.arrayPoints.size()-1)) <= 0.005) {
                             Speed.setText("도착!");
                             if (routeInfo.arraymarkerPoints.size() - 1 >= count) {
                                 count++;
