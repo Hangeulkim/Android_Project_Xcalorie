@@ -14,8 +14,12 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
@@ -46,6 +50,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     LinearLayout Select_More_Layout;
     RelativeLayout Select_Start_Layout;
     LinearLayout Start_First_Layout;
+    LinearLayout Timer;
+
+    long hour;
+    long minute;
+    long second;
 
     ImageButton Start_More;
     ImageButton Start_Start;
@@ -63,6 +72,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     AlertDialog pathSaveDialog;
 
     DBHelper helper = null;
+
+    EditText in;
 
     SharedPreferences prefs;
 
@@ -157,6 +168,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void Click_Start_Timer(View view) {
         moving = true;
         gMap.clear();
+        Timer.setVisibility(View.VISIBLE);
         now_Location.setVisibility(View.VISIBLE);
         Start_First_Layout.setVisibility(View.GONE);
         End.setVisibility(View.VISIBLE);
@@ -173,6 +185,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, gpsLocationListener);
             }
         }
+    }
+
+    public void Start_Count_down(View view){
+        
+    }
+
+    public void sum(long t){
+        hour =  t/3600;
+        minute = (t%3600)/60;
+        second = (t%3600)%60;
+
     }
 
     public void Click_Start_Select(View view) {
@@ -228,6 +251,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 "double speed"+
                 ")");
 */
+        if(Vibe==true){
+            Vibrator vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(1000);
+        }
+        if(Sound==true){
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone ringtone = RingtoneManager.getRingtone(getApplicationContext(),notification);
+            ringtone.play();
+        }
+
         moving = false;
         gMap.clear();
 
@@ -245,6 +278,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         Start_First_Layout.setVisibility(View.VISIBLE);
         End.setVisibility(View.GONE);
+        Timer.setVisibility(View.GONE);
         routeInfo.clear();
         Speed.setText("끝!");
     }
@@ -326,6 +360,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Select_More_Layout = (LinearLayout) findViewById(R.id.Select_More);
         Select_Start_Layout = (RelativeLayout) findViewById(R.id.Select_Start);
         Start_First_Layout = (LinearLayout) findViewById(R.id.Start_First);
+        Timer = (LinearLayout)findViewById(R.id.Timer);
 
         now_Location = (ImageButton) findViewById(R.id.Now_Location);
 
@@ -339,6 +374,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        in=(EditText)findViewById(R.id.time);
 
         prefs= PreferenceManager.getDefaultSharedPreferences(this);
 

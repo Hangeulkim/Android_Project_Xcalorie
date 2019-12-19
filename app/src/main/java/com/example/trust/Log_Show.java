@@ -25,13 +25,15 @@ public class Log_Show extends FragmentActivity implements OnMapReadyCallback{
         setContentView(R.layout.activity_log__show);
 
         Intent intent = getIntent();
-        /*String[] tmpSpeed=intent.getExtras().getString("speed").split("/");
+        String[] tmpSpeed=intent.getExtras().getString("speed").split("/");
         String[] tmpLong=intent.getExtras().getString("longitude").split("/");
         String[] tmpLat=intent.getExtras().getString("latitude").split("/");
         for(String speed : tmpSpeed){
             log_info.arraySpeeds.add(Double.parseDouble(speed));
-        }*/
-
+        }
+        for(int i=0;i<tmpLong.length;i++){
+            log_info.arrayPoints.add(new LatLng(Double.parseDouble(tmpLat[i]),Double.parseDouble(tmpLong[i])));
+        }
     }
 
     @Override
