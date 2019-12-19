@@ -2,10 +2,12 @@ package com.example.trust;
 
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
+
+import android.content.SharedPreferences;
 import android.location.Location;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class RouteInfo {
+public class RouteInfo{
     public String name = "name";
     public ArrayList<LatLng> arrayPoints;
     //    public ArrayList<Long> arrayTimes;
@@ -14,9 +16,12 @@ public class RouteInfo {
     public ArrayList<Location> arrayLocations;
     public ArrayList<MarkerOptions> arraymarkerPoints;
     public double cal;
-    public int weight;
+    public double weight;
     public boolean degree_b = true;
     public int select_menu = 0;     //타이머 = 1, 빠시 = 2, 경로지정 = 3;
+    SharedPreferences prefs;
+    public String HowToEx="걷기";
+    //public String HowToEx = prefs.getString("howtoex","걷기");
 //    public boolean moving = false;  //시작하면 true, 종료하면 false;
 
 
@@ -41,8 +46,16 @@ public class RouteInfo {
         select_menu = i;
     }
 
-    public void getCal(int weight, double time){
-
+    public void getCal(double time){
+        if(HowToEx.equals("걷기")){
+            cal = weight*3.5*2.3*time/1000;
+        }
+        else if(HowToEx.equals("뛰기")){
+            cal = weight*3.5*3.6*time/1000;
+        }
+        else{
+            cal = weight*3.5*8.0*time/1000;
+        }
     }
 
     public double getSpeed(){

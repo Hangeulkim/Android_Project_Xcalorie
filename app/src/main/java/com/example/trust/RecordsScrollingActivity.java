@@ -1,5 +1,6 @@
 package com.example.trust;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -69,16 +70,13 @@ public class RecordsScrollingActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             cursor.moveToPosition(position);
-            Log.d("title : ", cursor.getString(1));
-            Log.d("latitude : ", cursor.getString(2));
-            Log.d("longitude : ", cursor.getString(3));
-            Log.d("speed : ", cursor.getString(4));
-            Log.d("cal", cursor.getString(5));
-            Toast.makeText(getApplicationContext(), "title :"+cursor.getString(1), Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "lati :"+cursor.getString(2), Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "longi :"+cursor.getString(3), Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "speed :"+cursor.getString(4), Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "cal :"+cursor.getString(5), Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getApplicationContext(),Log_Show.class);
+            intent.putExtra("latitude",cursor.getString(2));
+            intent.putExtra("longtitude",cursor.getString(3));
+            intent.putExtra("speed",cursor.getString(4));
+
+            startActivity(intent);
         }
     };
 }

@@ -9,9 +9,7 @@ import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 
 public class SettingPreferenceFragment extends PreferenceFragment {
-
     SharedPreferences prefs;
-
     ListPreference howtoex;
 
     public void onCreate(@Nullable Bundle savedInstanceState){
@@ -19,6 +17,7 @@ public class SettingPreferenceFragment extends PreferenceFragment {
 
         addPreferencesFromResource(R.xml.settings_preference);
         howtoex=(ListPreference)findPreference("exercise");
+
 
         prefs= PreferenceManager.getDefaultSharedPreferences(getActivity());
 

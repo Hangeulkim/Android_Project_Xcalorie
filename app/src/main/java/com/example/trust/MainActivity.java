@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -62,11 +63,18 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     DBHelper helper = null;
 
+    SharedPreferences prefs;
+
     private GoogleMap mMap;
     private GoogleMap gMap;
     //    private ArrayList<LatLng> arrayPoints;
     double p_lat, p_lng;
     private RouteInfo routeInfo;
+
+
+    //String HowToEx = prefs.getString("exercise","걷기");
+   // Boolean Vibe = prefs.getBoolean("Vibrate",true);
+    //Boolean Sound = prefs.getBoolean("Sound",true);
 
 
     public void Now_location(View view) {
@@ -296,7 +304,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 value.put("speed",tmpSpeed);
                 value.put("latitude",tmpLat);
                 value.put("longitude",tmpLong);
-                value.put("cal", routeInfo.cal + "cal");
+                value.put("cal", routeInfo.cal + "kcal");
 
                 db.insert("log", null, value);
             }
@@ -328,6 +336,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        prefs=getSharedPreferences("setting",MODE_PRIVATE);
 
 
         helper = new DBHelper(this);
