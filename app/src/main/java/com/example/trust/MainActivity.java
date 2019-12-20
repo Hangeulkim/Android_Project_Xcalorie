@@ -19,6 +19,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -44,6 +45,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback{
@@ -52,9 +54,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     LinearLayout Start_First_Layout;
     LinearLayout Timer;
 
-    long hour;
-    long minute;
-    long second;
+    int t;
+    int hour;
+    int minute;
+    int second;
 
     ImageButton Start_More;
     ImageButton Start_Start;
@@ -174,6 +177,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Start_First_Layout.setVisibility(View.GONE);
         End.setVisibility(View.VISIBLE);
         routeInfo.set_selectMenu(1);
+        Speed.setVisibility(View.INVISIBLE);
 //        routeInfo.moving = true;
 
         if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -189,14 +193,20 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void Start_Count_down(View view){
-        
-    }
+        String text = in.getText().toString();
+        String[] data = text.split(":");
+        hour=Integer.parseInt(data[0]);
+        minute=Integer.parseInt(data[1]);
+        second=Integer.parseInt(data[2]);
 
-    public void sum(long t){
-        hour =  t/3600;
-        minute = (t%3600)/60;
-        second = (t%3600)%60;
-
+        CountDownTimer countdownTimer = new CountDownTimer(hour*60*60*1000+minute*60*1000+second*1000,1000){
+            public void onTick(long millisUntilFinished){
+                in.setText(String.format(Locale.getDefault(),"%02d:%02d:%02d",(millisUntilFinished/1000L)/3600,(millisUntilFinished/1000L)%3600/60,(millisUntilFinished/1000L)%3600%60));
+            }
+            public void onFinish(){
+                End.performClick();
+            }
+        }.start();
     }
 
     public void Click_Start_Select(View view) {
@@ -278,6 +288,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         ////
 
         Start_First_Layout.setVisibility(View.VISIBLE);
+        Speed.setVisibility(View.VISIBLE);
         End.setVisibility(View.GONE);
         Timer.setVisibility(View.GONE);
 
