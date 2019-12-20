@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,14 +32,16 @@ public class Log_Show extends FragmentActivity implements OnMapReadyCallback{
         log_info = new RouteInfo();
 
         Intent intent = getIntent();
-//        String[] tmpSpeed=intent.getExtras().getString("speed").split("/");
+
         String[] tmpLong=intent.getExtras().getString("longitude").split("/");
+
+
         String[] tmpLat=intent.getExtras().getString("latitude").split("/");
 //        for(String speed : tmpSpeed){
 //            log_info.arraySpeeds.add(Double.parseDouble(speed));
 //        }
 //        Long[0] = tmpLong[0];
-        for(int i=0;i<=tmpLong.length;i++){
+        for(int i=0;i<tmpLong.length;i++){
             log_info.arrayPoints.add(new LatLng(Double.parseDouble(tmpLat[i]),Double.parseDouble(tmpLong[i])));
         }
     }
